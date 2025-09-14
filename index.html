@@ -1,589 +1,382 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>DGT iPhone Trainer</title>
-  <meta name="description" content="Простое офлайн‑тренажёр тестов для экзамена на водительские права (ES). Импорт/экспорт вопросов в JSON, режим практики и экзамена, локальное сохранение прогресса." />
-  
+  <title>DGT iPhone Trainer — Lectura Fácil</title>
+  <meta name="description" content="Entrenador sencillo para la teoría de conducir en España. Modo práctica y examen, perfiles separados y soporte de imágenes. Estilo Lectura Fácil (no oficial)." />
   <style>
-    :root{
-      --bg:#0b0f14; --panel:#121821; --card:#18202b; --ink:#e7eef7; --muted:#a9b7c8; --acc:#5bd4ff; --good:#1ec28b; --bad:#ff6b6b; --warn:#ffc857;
-    }
+    :root{ --bg:#0b0f14; --panel:#121821; --card:#18202b; --ink:#e7eef7; --muted:#a9b7c8; --acc:#5bd4ff; --good:#1ec28b; --bad:#ff6b6b}
     *{box-sizing:border-box}
-    html,body{margin:0; height:100%; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Inter,Helvetica,Arial,system-ui,Apple Color Emoji,Segoe UI Emoji; background:var(--bg); color:var(--ink)}
-    .wrap{max-width:900px; margin:0 auto; padding: max(12px, env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));}
-    header{position:sticky; top:0; z-index:20; background:linear-gradient(180deg, rgba(11,15,20,.98) 80%, rgba(11,15,20,0)); backdrop-filter:saturate(1.2) blur(8px); padding:8px 4px 6px; border-bottom:1px solid rgba(255,255,255,.05)}
-    h1{font-size:20px; margin:0; letter-spacing:.2px}
-    .subtitle{color:var(--muted); font-size:12px; margin-top:2px}
+    html,body{margin:0; height:100%; font-family:-apple-system,BlinkMacSystemFont,Inter,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--ink)}
+    .wrap{max-width:900px; margin:0 auto; padding:max(12px,env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));}
+    header{position:sticky; top:0; z-index:10; background:linear-gradient(180deg, rgba(11,15,20,.98) 80%, rgba(11,15,20,0)); backdrop-filter:saturate(1.2) blur(8px); border-bottom:1px solid rgba(255,255,255,.05); padding:8px 4px}
+    h1{margin:0; font-size:20px}
+    .subtitle{color:var(--muted); font-size:12px}
     .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
     .grow{flex:1}
-    .card{background:var(--card); border:1px solid rgba(255,255,255,.05); border-radius:16px; padding:14px}
-    .controls{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
-    .btn{background:#10161f; border:1px solid rgba(255,255,255,.08); color:var(--ink); padding:12px 14px; border-radius:12px; font-weight:600; cursor:pointer; touch-action:manipulation}
-    .btn:hover{border-color: rgba(255,255,255,.18)}
-    .btn.primary{background:linear-gradient(180deg,#1a5cff,#147aff); border-color:rgba(255,255,255,.2)}
-    .btn.good{background:linear-gradient(180deg,#0dab77,#0c9b6c)}
-    .btn.bad{background:linear-gradient(180deg,#e15555,#d24040)}
-    .btn.ghost{background:transparent}
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:16px; padding:14px}
+    .btn{background:#10161f; border:1px solid rgba(255,255,255,.1); color:var(--ink); padding:10px 12px; border-radius:12px; font-weight:600; cursor:pointer}
     .btn.small{padding:8px 10px; font-weight:500}
+    .btn.primary{background:linear-gradient(180deg,#1a5cff,#147aff)}
+    .btn.ghost{background:transparent}
     .seg{display:flex; gap:6px; background:rgba(255,255,255,.04); padding:4px; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
-    .seg button{flex:1; padding:8px 10px; border-radius:10px; background:transparent; color:var(--ink); border:none; font-weight:600}
+    .seg button{flex:1; padding:8px 10px; border:none; border-radius:10px; font-weight:600; color:var(--ink); background:transparent}
     .seg button.active{background:var(--acc); color:#00131f}
-    .qarea{display:grid; gap:10px}
     .qtxt{font-size:18px; line-height:1.35}
     .choices{display:grid; gap:8px}
     .choice{display:flex; gap:10px; align-items:flex-start; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); padding:10px 12px; border-radius:12px; cursor:pointer}
-    .choice input{margin-top:4px}
     .choice.correct{outline:2px solid var(--good)}
     .choice.incorrect{outline:2px solid var(--bad)}
-    .explain{background:rgba(27,205,255,.08); border:1px dashed rgba(91,212,255,.45); padding:10px 12px; border-radius:12px; color:#d9f6ff}
     .muted{color:var(--muted)}
     .bar{height:8px; background:rgba(255,255,255,.06); border-radius:999px; overflow:hidden}
-    .bar > span{display:block; height:100%; background:linear-gradient(90deg,#5bd4ff,#1ec28b)}
-    .grid{display:grid; gap:10px}
-    .two{grid-template-columns:1fr}
-    @media (min-width:740px){.two{grid-template-columns:1fr 1fr}}
-    .hidden{display:none !important}
-    .right{color:var(--good)}
-    .wrong{color:var(--bad)}
+    .bar>span{display:block; height:100%; background:linear-gradient(90deg,#5bd4ff,#1ec28b)}
     .image{width:100%; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
+    .hidden{display:none!important}
+    input[type="text"], select{background:#0f141c; color:var(--ink); border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:10px 12px; width:100%}
     label.file{display:inline-flex; align-items:center; gap:8px; cursor:pointer}
     input[type="file"]{display:none}
-    input[type="text"], select{background:#0f141c; color:var(--ink); border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:10px 12px; width:100%}
+    .grid{display:grid; gap:10px}
+    .two{grid-template-columns:1fr}
+    @media(min-width:740px){.two{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <div class="row" style="justify-content:space-between; align-items:flex-start; gap:12px">
+      <div class="row" style="justify-content:space-between; align-items:flex-start">
         <div>
-          <h1>📘 DGT iPhone Trainer</h1>
-          <div class="subtitle">Тренируйтесь к теории (ES). Работает на iPhone, офлайн‑прогресс сохраняется на устройстве.</div>
+          <h1>📘 DGT iPhone Trainer — Lectura Fácil</h1>
+          <div class="subtitle">Entrena para la teoría (ES). Funciona en iPhone, guarda progreso en el dispositivo.</div>
         </div>
         <div class="row">
-          <div class="seg" role="tablist" aria-label="mode">
-            <button id="modePractice" class="active" aria-selected="true">Практика</button>
-            <button id="modeExam" aria-selected="false">Экзамен</button>
+          <div class="seg" role="tablist">
+            <button id="modePractice" class="active">Práctica</button>
+            <button id="modeExam">Examen</button>
           </div>
-          <button id="btnSettings" class="btn small">⚙️ Настройки</button>
+          <button id="btnSettings" class="btn small">⚙️ Ajustes</button>
         </div>
       </div>
     </div>
   </header>
 
   <main class="wrap" style="display:grid; gap:12px">
-
-    <section id="settingsPanel" class="card hidden" aria-live="polite">
+    <section id="settingsPanel" class="card hidden">
       <div class="grid two">
         <div class="card" style="background:#111723">
-          <h3 style="margin:0 0 10px">Профиль и язык</h3>
-          <div class="grid" style="gap:8px">
-            <label>Имя профиля (для разделения прогресса)
-              <input type="text" id="profileName" placeholder="Напр.: Michael или Masha" />
-            </label>
-            <label>Язык интерфейса
-              <select id="uiLang">
-                <option value="ru">Русский</option>
-                <option value="es">Español</option>
-              </select>
-            </label>
-            <div class="muted">Совет: вы с супругой можете указать разные имена профиля — у каждого будет свой прогресс.</div>
-          </div>
+          <h3 style="margin:0 0 10px">Perfil e idioma</h3>
+          <label>Nombre de perfil (para separar progreso)
+            <input type="text" id="profileName" placeholder="Ej.: Michael o Masha" />
+          </label>
+          <label>Idioma UI
+            <select id="uiLang"><option value="es">Español</option><option value="ru">Русский</option></select>
+          </label>
+          <div class="muted">Consejo: usa perfiles distintos para tener progresos separados.</div>
         </div>
         <div class="card" style="background:#111723">
-          <h3 style="margin:0 0 10px">Импорт/экспорт</h3>
-          <div class="grid" style="gap:8px">
+          <h3 style="margin:0 0 10px">Datos</h3>
+          <div class="grid">
             <div class="row">
-              <label class="file btn small">📥 Импорт вопросов (JSON)
+              <label class="file btn small">📥 Importar preguntas (JSON)
                 <input type="file" id="importFile" accept="application/json" />
               </label>
-              <button id="btnExport" class="btn small">📤 Экспорт (вопросы+прогресс)</button>
+              <button id="btnExport" class="btn small">📤 Exportar (preguntas+progreso)</button>
             </div>
-            <button id="btnReset" class="btn small bad">♻️ Сбросить прогресс</button>
+            <button id="btnLoadLF" class="btn small">⬇️ Cargar pack “Lectura Fácil” (incluido)</button>
+            <button id="btnReset" class="btn small" style="background:#2a0f14;border-color:#5a1b22">♻️ Reiniciar progreso</button>
             <details>
-              <summary>📄 Формат JSON (пример)</summary>
+              <summary>📄 Formato JSON (ejemplo)</summary>
 <pre style="white-space:pre-wrap; font-size:12px; color:#cfe8ff; background:#0c121a; padding:8px; border-radius:10px; border:1px solid rgba(255,255,255,.08)">[
   {
     "id": 1,
-    "topic": "Знаки",
-    "image": null,
-    "question": {"ru": "Что означает красный восьмиугольный знак?", "es": "¿Qué significa la señal octogonal roja?"},
+    "topic": "Señales",
+    "image": "data:image/svg+xml;utf8,...",
+    "question": {"es": "¿Qué significa la señal octogonal roja?"},
     "choices": [
-      {"id":"A","text":{"ru":"Уступи дорогу","es":"Ceda el paso"}},
-      {"id":"B","text":{"ru":"Стоп","es":"Stop"}},
-      {"id":"C","text":{"ru":"Запрет обгона","es":"Prohibido adelantar"}}
+      {"id":"A","text":{"es":"Ceda el paso"}},
+      {"id":"B","text":{"es":"Stop"}},
+      {"id":"C","text":{"es":"Prohibido adelantar"}}
     ],
     "correct": ["B"],
-    "explanation": {"ru": "Красный восьмиугольник — всегда STOP.", "es": "La señal octogonal roja significa STOP."}
+    "explanation": {"es": "El octógono rojo significa STOP."}
   }
 ]</pre>
+              <div class="muted">Este pack es educativo, no es la base oficial de la DGT.</div>
             </details>
           </div>
         </div>
       </div>
-      <div class="row" style="justify-content:flex-end"><button id="btnCloseSettings" class="btn">Готово</button></div>
+      <div class="row" style="justify-content:flex-end"><button id="btnCloseSettings" class="btn">Listo</button></div>
     </section>
 
     <section class="card">
       <div class="row" style="align-items:center; gap:10px">
         <div class="grow">
-          <div class="bar" aria-label="Прогресс"><span id="progressBar" style="width:0%"></span></div>
+          <div class="bar"><span id="progressBar" style="width:0%"></span></div>
           <div class="muted" id="progressText" style="margin-top:6px">0 / 0</div>
         </div>
         <div class="row">
-          <button id="btnPrev" class="btn small">◀︎ Назад</button>
-          <button id="btnNext" class="btn small">Вперёд ▶︎</button>
+          <button id="btnPrev" class="btn small">◀︎ Atrás</button>
+          <button id="btnNext" class="btn small">Siguiente ▶︎</button>
         </div>
       </div>
     </section>
 
-    <section id="qa" class="card qarea" aria-live="polite">
+    <section id="qa" class="card" aria-live="polite" style="display:grid; gap:10px">
       <div id="topic" class="muted"></div>
-      <img id="qImage" class="image hidden" alt="Иллюстрация к вопросу" />
+      <img id="qImage" class="image hidden" alt="Imagen de la pregunta" />
       <div id="qText" class="qtxt"></div>
       <div id="choices" class="choices"></div>
-      <div id="explain" class="explain hidden"></div>
+      <div id="explain" class="muted hidden"></div>
       <div class="row">
-        <button id="btnCheck" class="btn primary">Проверить</button>
-        <button id="btnReveal" class="btn ghost">Показать ответ</button>
-        <button id="btnMarkHard" class="btn ghost">★ Сложный</button>
+        <button id="btnCheck" class="btn primary">Comprobar</button>
+        <button id="btnReveal" class="btn ghost">Mostrar respuesta</button>
+        <button id="btnMarkHard" class="btn ghost">★ Difícil</button>
       </div>
     </section>
 
     <section id="examPanel" class="card hidden">
       <div class="grid two">
         <div class="card" style="background:#111723">
-          <h3 style="margin:0 0 10px">Настройка экзамена</h3>
-          <label>Количество вопросов
+          <h3 style="margin:0 0 10px">Examen</h3>
+          <label>Nº preguntas
             <input type="text" id="examCount" inputmode="numeric" value="30" />
           </label>
-          <label>Перемешивать порядок
-            <select id="examShuffle"><option value="1">Да</option><option value="0">Нет</option></select>
+          <label>Mezclar
+            <select id="examShuffle"><option value="1">Sí</option><option value="0">No</option></select>
           </label>
-          <button id="btnStartExam" class="btn">Начать экзамен</button>
+          <button id="btnStartExam" class="btn">Comenzar</button>
         </div>
         <div class="card" style="background:#111723">
-          <h3 style="margin:0 0 10px">Результаты</h3>
-          <div id="examStats" class="muted">Пока нет попыток.</div>
+          <h3 style="margin:0 0 10px">Resultados</h3>
+          <div id="examStats" class="muted">Sin intentos.</div>
           <div id="examReview" class="grid" style="gap:6px"></div>
         </div>
       </div>
     </section>
 
     <footer class="muted" style="text-align:center; padding:18px 0 8px">
-      <div>Добавить на экран iPhone: в Safari нажмите <strong>Поделиться → На экран «Домой»</strong>.</div>
-      <div style="margin-top:6px">Данные хранятся локально на устройстве. Это учебный инструмент и не содержит официальных билетов DGT.</div>
+      <div>Para añadir en iPhone: en Safari toca <strong>Compartir → Añadir a pantalla de inicio</strong>.</div>
+      <div style="margin-top:6px">Los datos se guardan localmente. Recurso educativo (no oficial DGT).</div>
     </footer>
-
   </main>
 
   <script>
-  // -------------------- i18n helpers --------------------
-  const i18n = {
-    ru: {
-      practice: 'Практика', exam: 'Экзамен', settings: 'Настройки',
-      back: 'Назад', next: 'Вперёд', check: 'Проверить', reveal: 'Показать ответ', hard: '★ Сложный',
-      correct: 'Верно', incorrect: 'Неверно', yourAns: 'Ваш ответ', rightAns: 'Правильный ответ',
-      result: (ok,total)=>`Результат: ${ok} из ${total} (${Math.round(ok*100/Math.max(total,1))}%)`
-    },
-    es: {
-      practice: 'Práctica', exam: 'Examen', settings: 'Ajustes',
-      back: 'Atrás', next: 'Siguiente', check: 'Comprobar', reveal: 'Mostrar respuesta', hard: '★ Difícil',
-      correct: 'Correcto', incorrect: 'Incorrecto', yourAns: 'Tu respuesta', rightAns: 'Respuesta correcta',
-      result: (ok,total)=>`Resultado: ${ok} de ${total} (${Math.round(ok*100/Math.max(total,1))}%)`
-    }
-  }
+  // ==== UTIL: SVG sencillos para señales (originales) ====
+  const SVG = {
+    stop: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><g transform='translate(160,90)'><polygon points='0,-60 42,-42 60,0 42,42 0,60 -42,42 -60,0 -42,-42' fill='#d94848' stroke='white' stroke-width='6'/><text x='0' y='10' font-family='Arial' font-size='40' fill='white' text-anchor='middle' font-weight='700'>STOP</text></g></svg>`)}`,
+    ceda: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><g transform='translate(160,90)'><polygon points='0,-56 50,40 -50,40' fill='white' stroke='#e74c3c' stroke-width='12'/><text x='0' y='70' font-family='Arial' font-size='18' fill='#e7eef7' text-anchor='middle'>Ceda el paso</text></g></svg>`)}`,
+    peligro: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><g transform='translate(160,90)'><polygon points='0,-58 50,38 -50,38' fill='yellow' stroke='red' stroke-width='8'/><text x='0' y='70' font-family='Arial' font-size='18' fill='#e7eef7' text-anchor='middle'>Señal de peligro</text></g></svg>`)}`,
+    oblig: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><circle cx='160' cy='90' r='60' fill='#1e90ff' stroke='white' stroke-width='6'/><path d='M130 90h60' stroke='white' stroke-width='10' stroke-linecap='round'/></svg>`)}`,
+    niebla: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><g fill='none' stroke='#cfe8ff' stroke-width='6'><path d='M20 80h280M40 110h240M60 140h200'/></g><text x='160' y='50' fill='#e7eef7' text-anchor='middle' font-family='Arial' font-size='18'>Niebla / lluvia intensa</text></svg>`)}`,
+    paso: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><rect x='40' y='100' width='240' height='20' fill='white'/><rect x='40' y='70' width='240' height='10' fill='white' opacity='.5'/><circle cx='110' cy='90' r='8' fill='#e7eef7'/><rect x='106' y='98' width='8' height='20' fill='#e7eef7'/><rect x='100' y='118' width='20' height='6' fill='#e7eef7'/></svg>`)}`,
+    rotonda: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><circle cx='160' cy='90' r='50' fill='none' stroke='#5bd4ff' stroke-width='10'/><path d='M160 40 l10 15 h-20z' fill='#5bd4ff'/><text x='160' y='160' font-family='Arial' fill='#e7eef7' text-anchor='middle'>Rotonda</text></svg>`)}`,
+    velocidad: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'><rect width='100%' height='100%' fill='#18202b'/><circle cx='160' cy='90' r='60' fill='white' stroke='red' stroke-width='10'/><text x='160' y='105' font-family='Arial' font-size='44' font-weight='700' text-anchor='middle' fill='#111'>50</text></svg>`)}`
+  };
 
-  // -------------------- Sample dataset (generic, not official DGT) --------------------
-  const sampleQuestions = [
-    {
-      id: 1, topic: 'Знаки', image: null,
-      question: {ru:'Что означает красный восьмиугольный знак?', es:'¿Qué significa la señal octogonal roja?'},
-      choices:[
-        {id:'A', text:{ru:'Уступи дорогу', es:'Ceda el paso'}},
-        {id:'B', text:{ru:'Стоп', es:'Stop'}},
-        {id:'C', text:{ru:'Запрет обгона', es:'Prohibido adelantar'}}
-      ], correct:['B'], explanation:{ru:'Красный восьмиугольник — всегда STOP.', es:'La señal octogonal roja significa STOP.'}
+  // ==== Pack estilo "Lectura Fácil" (preguntas originales, no oficiales) ====
+  const lfQuestions = [
+    { id:1, topic:'Señales', image:SVG.stop,
+      question:{es:'Esta señal octogonal roja significa:'},
+      choices:[{id:'A',text:{es:'Ceda el paso'}},{id:'B',text:{es:'Stop (detenerse por completo)'}},{id:'C',text:{es:'Prohibido adelantar'}}],
+      correct:['B'], explanation:{es:'El octógono rojo es “STOP”. Detente por completo y continúa cuando sea seguro.'}
     },
-    {
-      id: 2, topic: 'Знаки', image: null,
-      question: {ru:'Треугольный знак с красной каймой предупреждает о…', es:'La señal triangular con borde rojo advierte de…'},
-      choices:[
-        {id:'A', text:{ru:'Обязательном действии', es:'Una obligación'}},
-        {id:'B', text:{ru:'Опасности', es:'Un peligro'}},
-        {id:'C', text:{ru:'Запрете', es:'Una prohibición'}}
-      ], correct:['B'], explanation:{ru:'Треугольник — предупреждение об опасности.', es:'El triángulo advierte de un peligro.'}
+    { id:2, topic:'Señales', image:SVG.ceda,
+      question:{es:'La señal “Ceda el paso” te obliga a:'},
+      choices:[{id:'A',text:{es:'Detenerte siempre'}},{id:'B',text:{es:'Reducir y ceder si vienen otros'}},{id:'C',text:{es:'Pasar primero'}}],
+      correct:['B'], explanation:{es:'Debes dejar pasar si hay vehículos con prioridad. Si no hay riesgo, no hace falta detenerse por completo.'}
     },
-    {
-      id: 3, topic: 'Знаки', image: null,
-      question: {ru:'Синий круглый знак означает…', es:'La señal circular azul indica…'},
-      choices:[
-        {id:'A', text:{ru:'Запрет', es:'Prohibición'}},
-        {id:'B', text:{ru:'Предупреждение', es:'Peligro'}},
-        {id:'C', text:{ru:'Обязательное действие', es:'Obligación'}}
-      ], correct:['C'], explanation:{ru:'Синий круг — обязательное требование (напр., направление движения).', es:'El círculo azul indica obligación.'}
+    { id:3, topic:'Señales', image:SVG.peligro,
+      question:{es:'Una señal triangular con borde rojo avisa de:'},
+      choices:[{id:'A',text:{es:'Obligación'}},{id:'B',text:{es:'Peligro'}},{id:'C',text:{es:'Fin de prohibición'}}],
+      correct:['B'], explanation:{es:'Triángulo con borde rojo = aviso de peligro.'}
     },
-    {
-      id: 4, topic: 'Безопасность', image: null,
-      question: {ru:'Что следует сделать перед началом обгона?', es:'¿Qué se debe hacer antes de adelantar?'},
-      choices:[
-        {id:'A', text:{ru:'Убедиться в достаточной видимости и отсутствии помех', es:'Asegurar visibilidad y ausencia de obstáculos'}},
-        {id:'B', text:{ru:'Подать звуковой сигнал', es:'Tocar el claxon'}},
-        {id:'C', text:{ru:'Включить аварийную сигнализацию', es:'Encender las luces de emergencia'}}
-      ], correct:['A'], explanation:{ru:'Главное — безопасность и обзор.', es:'Primero, garantizar seguridad y visibilidad.'}
+    { id:4, topic:'Alumbrado', image:SVG.niebla,
+      question:{es:'¿Cuándo se usan las luces antiniebla?'},
+      choices:[{id:'A',text:{es:'Siempre de noche'}},{id:'B',text:{es:'Con niebla, lluvia o nieve intensas'}},{id:'C',text:{es:'Solo en ciudad'}}],
+      correct:['B'], explanation:{es:'Se usan cuando baja mucho la visibilidad.'}
     },
-    {
-      id: 5, topic: 'Безопасность', image: null,
-      question: {ru:'Когда следует увеличить дистанцию до впереди идущего автомобиля?', es:'¿Cuándo se debe aumentar la distancia de seguridad?'},
-      choices:[
-        {id:'A', text:{ru:'В дождь или туман', es:'Con lluvia o niebla'}},
-        {id:'B', text:{ru:'На сухой прямой дороге', es:'En recta seca'}},
-        {id:'C', text:{ru:'В пробке на низкой скорости', es:'En atasco a baja velocidad'}}
-      ], correct:['A'], explanation:{ru:'Скользкая дорога — длиннее тормозной путь.', es:'Con baja adherencia, aumenta la distancia.'}
+    { id:5, topic:'Paso de peatones', image:SVG.paso,
+      question:{es:'Te acercas a un paso de peatones con gente esperando. Debes:'},
+      choices:[{id:'A',text:{es:'Acelerar y pasar'}},{id:'B',text:{es:'Parar y dejar pasar'}},{id:'C',text:{es:'Pitar y seguir'}}],
+      correct:['B'], explanation:{es:'El peatón tiene prioridad en el paso.'}
     },
-    {
-      id: 6, topic: 'Этика', image: null,
-      question: {ru:'Разговаривать по телефону без громкой связи за рулём…', es:'Hablar por teléfono sin manos libres al conducir…'},
-      choices:[
-        {id:'A', text:{ru:'Разрешено при низкой скорости', es:'Permitido a baja velocidad'}},
-        {id:'B', text:{ru:'Опасно и отвлекает водителя', es:'Es peligroso y distrae'}},
-        {id:'C', text:{ru:'Рекомендуется на трассе', es:'Recomendado en autopista'}}
-      ], correct:['B'], explanation:{ru:'Отвлечение повышает риск ДТП.', es:'La distracción aumenta el riesgo.'}
+    { id:6, topic:'Señales', image:SVG.oblig,
+      question:{es:'Un círculo azul indica:'},
+      choices:[{id:'A',text:{es:'Prohibición'}},{id:'B',text:{es:'Peligro'}},{id:'C',text:{es:'Obligación (acción obligatoria)'}}],
+      correct:['C'], explanation:{es:'Círculo azul = obligación, por ejemplo dirección obligatoria.'}
     },
-    {
-      id: 7, topic: 'Манёвры', image: null,
-      question: {ru:'Перед началом движения нужно…', es:'Antes de iniciar la marcha hay que…'},
-      choices:[
-        {id:'A', text:{ru:'Посмотреть только в левое зеркало', es:'Mirar solo el espejo izquierdo'}},
-        {id:'B', text:{ru:'Проверить зеркала и «слепые зоны»', es:'Comprobar espejos y ángulos muertos'}},
-        {id:'C', text:{ru:'Подать звуковой сигнал', es:'Tocar el claxon'}}
-      ], correct:['B'], explanation:{ru:'Проверка «слепых зон» обязательна.', es:'Comprueba ángulos muertos.'}
+    { id:7, topic:'Rotondas', image:SVG.rotonda,
+      question:{es:'En una rotonda, la prioridad es de:'},
+      choices:[{id:'A',text:{es:'Quien entra'}},{id:'B',text:{es:'Quien circula dentro'}},{id:'C',text:{es:'Siempre el de la derecha'}}],
+      correct:['B'], explanation:{es:'Tiene prioridad quien ya está dentro de la rotonda.'}
     },
-    {
-      id: 8, topic: 'Пешеходы', image: null,
-      question: {ru:'При приближении к «зебре» с пешеходами следует…', es:'Al acercarse a un paso de peatones con peatones hay que…'},
-      choices:[
-        {id:'A', text:{ru:'Ускориться и проскочить', es:'Acelerar y pasar'}},
-        {id:'B', text:{ru:'Остановиться и уступить', es:'Detenerse y ceder'}},
-        {id:'C', text:{ru:'Просигналить и ехать дальше', es:'Pitar y seguir'}}
-      ], correct:['B'], explanation:{ru:'Пешеход имеет приоритет на переходе.', es:'El peatón tiene prioridad.'}
+    { id:8, topic:'Distancia', image:SVG.velocidad,
+      question:{es:'Regla básica de distancia de seguridad:'},
+      choices:[{id:'A',text:{es:'1 segundo'}},{id:'B',text:{es:'2 segundos (o más con lluvia)'}},{id:'C',text:{es:'Solo medio segundo'}}],
+      correct:['B'], explanation:{es:'Al menos 2 s en condiciones normales. Más con lluvia o mala visibilidad.'}
     },
-    {
-      id: 9, topic: 'Световые приборы', image: null,
-      question: {ru:'Когда применять противотуманные фары?', es:'¿Cuándo usar las luces antiniebla?'},
-      choices:[
-        {id:'A', text:{ru:'В тумане, сильном дожде или снегопаде', es:'Con niebla, lluvia o nieve intensas'}},
-        {id:'B', text:{ru:'Всегда ночью', es:'Siempre de noche'}},
-        {id:'C', text:{ru:'Только днём', es:'Solo de día'}}
-      ], correct:['A'], explanation:{ru:'Используются при ухудшении видимости.', es:'Se usan con baja visibilidad.'}
+    { id:9, topic:'Adelantamiento', image:null,
+      question:{es:'Antes de adelantar debes:'},
+      choices:[{id:'A',text:{es:'Tocar el claxon siempre'}},{id:'B',text:{es:'Comprobar visibilidad, señalizar y que no viene nadie'}},{id:'C',text:{es:'Encender las luces de emergencia'}}],
+      correct:['B'], explanation:{es:'Adelanta solo con buena visibilidad, espacio y señalizando.'}
     },
-    {
-      id: 10, topic: 'Дистанция', image: null,
-      question: {ru:'Правило двух секунд относится к…', es:'La regla de los dos segundos se refiere a…'},
-      choices:[
-        {id:'A', text:{ru:'Выбору передачи', es:'Selección de marcha'}},
-        {id:'B', text:{ru:'Дистанции до впереди идущего авто', es:'Distancia de seguridad'}},
-        {id:'C', text:{ru:'Смене полосы', es:'Cambio de carril'}}
-      ], correct:['B'], explanation:{ru:'Минимальный временной интервал до впереди идущего.', es:'Intervalo mínimo con el vehículo precedente.'}
+    { id:10, topic:'Velocidad', image:SVG.velocidad,
+      question:{es:'Señal circular blanca con borde rojo y “50” indica:'},
+      choices:[{id:'A',text:{es:'Velocidad mínima 50'}} ,{id:'B',text:{es:'Velocidad máxima 50'}},{id:'C',text:{es:'Recomendación 50'}}],
+      correct:['B'], explanation:{es:'Es un límite máximo.'}
     },
-    {
-      id: 11, topic: 'Опережение', image: null,
-      question: {ru:'Где обычно запрещён обгон?', es:'¿Dónde suele estar prohibido adelantar?'},
-      choices:[
-        {id:'A', text:{ru:'На пешеходных переходах', es:'En pasos de peatones'}},
-        {id:'B', text:{ru:'На автомагистралях', es:'En autopistas'}},
-        {id:'C', text:{ru:'На дорогах с более двумя полосами в одном направлении', es:'En vías con más de dos carriles por sentido'}}
-      ], correct:['A'], explanation:{ru:'Обгон на «зебре» опасен и запрещён.', es:'Prohibido en pasos de peatones.'}
+    { id:11, topic:'Prioridad', image:null,
+      question:{es:'¿Dónde suele estar prohibido adelantar?'},
+      choices:[{id:'A',text:{es:'En pasos de peatones'}},{id:'B',text:{es:'En autopistas'}},{id:'C',text:{es:'En vías con 3 carriles por sentido'}}],
+      correct:['A'], explanation:{es:'En pasos de peatones está prohibido por seguridad.'}
     },
-    {
-      id: 12, topic: 'Приоритет', image: null,
-      question: {ru:'Знак «Уступи дорогу» требует…', es:'La señal “Ceda el paso” exige…'},
-      choices:[
-        {id:'A', text:{ru:'Полной остановки всегда', es:'Parada completa siempre'}},
-        {id:'B', text:{ru:'Снижения скорости и уступки при необходимости', es:'Reducir y ceder si es necesario'}},
-        {id:'C', text:{ru:'Обязательного проезда первым', es:'Pasar primero obligatoriamente'}}
-      ], correct:['B'], explanation:{ru:'Остановку — лишь при наличии помех.', es:'Solo detenerse si hay riesgo.'}
+    { id:12, topic:'Cinturón', image:null,
+      question:{es:'El cinturón de seguridad:'},
+      choices:[{id:'A',text:{es:'No es necesario en ciudad'}},{id:'B',text:{es:'Es obligatorio para todos los ocupantes'}},{id:'C',text:{es:'Solo para el conductor'}}],
+      correct:['B'], explanation:{es:'Todos los ocupantes deben llevarlo abrochado.'}
+    },
+    { id:13, topic:'Niños', image:null,
+      question:{es:'Los menores de estatura inferior a 135 cm deben:'},
+      choices:[{id:'A',text:{es:'Ir delante con cinturón normal'}},{id:'B',text:{es:'Usar sistemas de retención infantil homologados'}},{id:'C',text:{es:'Ir de pie si es trayecto corto'}}],
+      correct:['B'], explanation:{es:'Siempre con SRI adecuado a su talla y peso.'}
+    },
+    { id:14, topic:'Móvil', image:null,
+      question:{es:'Hablar por el móvil sin manos libres al conducir:'},
+      choices:[{id:'A',text:{es:'Está permitido a baja velocidad'}},{id:'B',text:{es:'Es peligroso y está prohibido'}},{id:'C',text:{es:'Es obligatorio avisar por teléfono'}}],
+      correct:['B'], explanation:{es:'Distrae y aumenta el riesgo de accidente.'}
+    },
+    { id:15, topic:'Lluvia', image:SVG.niebla,
+      question:{es:'Con lluvia intensa debes:'},
+      choices:[{id:'A',text:{es:'Aumentar distancia y reducir velocidad'}},{id:'B',text:{es:'Mantener la misma velocidad'}},{id:'C',text:{es:'Apagar luces'}}],
+      correct:['A'], explanation:{es:'La adherencia baja, aumenta la distancia y reduce la velocidad.'}
+    },
+    { id:16, topic:'Estacionamiento', image:null,
+      question:{es:'Si aparcas en pendiente:'},
+      choices:[{id:'A',text:{es:'Usa freno de mano y deja una marcha puesta'}},{id:'B',text:{es:'Solo freno de pie'}},{id:'C',text:{es:'Apaga el motor y nada más'}}],
+      correct:['A'], explanation:{es:'Asegura el vehículo con freno de estacionamiento y una marcha.'}
+    },
+    { id:17, topic:'Ciclistas', image:null,
+      question:{es:'Al adelantar a una bicicleta en vía interurbana:'},
+      choices:[{id:'A',text:{es:'Distancia lateral mínima 1,5 m'}},{id:'B',text:{es:'No hay distancia mínima'}},{id:'C',text:{es:'Pita para que te oiga'}}],
+      correct:['A'], explanation:{es:'Mantén al menos 1,5 m y reduce velocidad.'}
+    },
+    { id:18, topic:'Autopista', image:null,
+      question:{es:'En autopista/autovía está prohibido:'},
+      choices:[{id:'A',text:{es:'Circular marcha atrás'}},{id:'B',text:{es:'Adelantar por la izquierda'}},{id:'C',text:{es:'Usar carriles'}}],
+      correct:['A'], explanation:{es:'Prohibidísimo: nunca marcha atrás salvo por indicación de la autoridad.'}
     }
   ];
 
-  // -------------------- State & storage --------------------
-  const $ = sel => document.querySelector(sel);
-  const $$ = sel => Array.from(document.querySelectorAll(sel));
+  // ==== Estado y almacenamiento ====
+  const $ = s=>document.querySelector(s); const $$ = s=>Array.from(document.querySelectorAll(s));
+  const storeKey = p=>`dgt_trainer_v2::${p||'default'}`;
+  const loadState = p=>{ try{return JSON.parse(localStorage.getItem(storeKey(p)))||{};}catch{return{}} };
+  const saveState = (p,d)=>localStorage.setItem(storeKey(p), JSON.stringify(d));
 
-  const storeKey = (profile)=>`dgt_trainer_v1::${profile||'default'}`;
-  const loadState = (profile)=>{
-    try{ return JSON.parse(localStorage.getItem(storeKey(profile))) || {}; }catch{ return {}; }
-  }
-  const saveState = (profile, data)=>{
-    localStorage.setItem(storeKey(profile), JSON.stringify(data));
-  }
-
-  let UI_LANG = localStorage.getItem('uiLang') || 'ru';
+  let UI_LANG = localStorage.getItem('uiLang') || 'es';
   let PROFILE = localStorage.getItem('profileName') || 'Michael';
-  let DATA = { questions: [], progress: { seen:{}, correct:{}, hard:{} }, exams: [] };
+  let DATA = { questions: [], progress:{seen:{},correct:{},hard:{}}, exams:[], practiceSel:{} };
 
   function initData(){
     const saved = loadState(PROFILE);
-    if(saved && saved.questions && saved.questions.length){
-      DATA = saved;
-    } else {
-      DATA.questions = sampleQuestions;
-      DATA.progress = { seen:{}, correct:{}, hard:{} };
-      DATA.exams = [];
-      saveState(PROFILE, DATA);
-    }
+    if(saved && saved.questions && saved.questions.length){ DATA=saved; }
+    else { DATA.questions = lfQuestions; saveState(PROFILE, DATA); }
   }
 
-  // -------------------- Rendering --------------------
-  let MODE = 'practice';
-  let INDEX = 0;
-  let ORDER = [];
-  let EXAM = null; // {order:[], answers:{}, startedAt:number}
-
-  function shuffle(arr){
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-    return a;
-  }
-
-  function setOrder(){ ORDER = DATA.questions.map((q,i)=>i); }
+  // ==== Render ====
+  let MODE='practice'; let INDEX=0; let EXAM=null; // {order:[], answers:{qid:[ids]}, startedAt}
 
   function setMode(m){
-    MODE = m;
-    $('#modePractice').classList.toggle('active', m==='practice');
-    $('#modeExam').classList.toggle('active', m==='exam');
-    $('#examPanel').classList.toggle('hidden', m!=='exam');
-    $('#qa').classList.toggle('hidden', m==='exam' && !EXAM);
+    MODE=m; $('#modePractice').classList.toggle('active',m==='practice'); $('#modeExam').classList.toggle('active',m==='exam');
+    $('#examPanel').classList.toggle('hidden', m!=='exam'); $('#qa').classList.toggle('hidden', m==='exam' && !EXAM);
     updateProgress();
   }
-
-  function t(key){ return (i18n[UI_LANG]||i18n.ru)[key] || key; }
-
-  function updateTexts(){
-    $('#modePractice').textContent = t('practice');
-    $('#modeExam').textContent = t('exam');
-    $('#btnCheck').textContent = t('check');
-    $('#btnReveal').textContent = t('reveal');
-    $('#btnPrev').textContent = '◀︎ '+t('back');
-    $('#btnNext').textContent = t('next')+' ▶︎';
-    $('#btnMarkHard').textContent = t('hard');
-  }
-
   function updateProgress(){
-    const total = MODE==='exam' && EXAM ? EXAM.order.length : DATA.questions.length;
-    const current = MODE==='exam' && EXAM ? EXAM.order.indexOf(INDEX)+1 : (INDEX+1);
-    const pct = total? Math.min(100, Math.max(0, Math.round(current*100/total))) : 0;
-    $('#progressBar').style.width = pct+'%';
+    const total = MODE==='exam' && EXAM? EXAM.order.length : DATA.questions.length;
+    const current = MODE==='exam' && EXAM? (EXAM.order.indexOf(INDEX)+1) : (INDEX+1);
+    $('#progressBar').style.width = (total?Math.round(current*100/total):0)+'%';
     $('#progressText').textContent = `${current} / ${total}`;
   }
-
   function renderQuestion(){
-    const q = DATA.questions[INDEX];
-    if(!q) return;
-    $('#topic').textContent = q.topic || '';
-    const img = $('#qImage');
-    if(q.image){ img.src = q.image; img.classList.remove('hidden'); } else { img.classList.add('hidden'); }
-
-    $('#qText').textContent = q.question[UI_LANG] || q.question.ru || '';
-
-    const choices = $('#choices');
-    choices.innerHTML = '';
+    const q = DATA.questions[INDEX]; if(!q) return;
+    $('#topic').textContent = q.topic||'';
+    const img=$('#qImage'); if(q.image){ img.src=q.image; img.classList.remove('hidden'); } else { img.classList.add('hidden'); }
+    $('#qText').textContent = q.question[UI_LANG] || q.question.es || '';
+    const choices=$('#choices'); choices.innerHTML='';
     (q.choices||[]).forEach(ch=>{
-      const row = document.createElement('label');
-      row.className = 'choice';
-      row.dataset.id = ch.id;
-      row.innerHTML = `<input type="checkbox" /> <div><div><strong>${ch.id}</strong>. ${ch.text[UI_LANG] || ch.text.ru}</div></div>`;
-      row.addEventListener('click', e=>{
-        if(e.target.tagName.toLowerCase()!=='input'){
-          const inp = row.querySelector('input');
-          inp.checked = !inp.checked;
-        }
-      });
-      choices.appendChild(row);
+      const lab=document.createElement('label'); lab.className='choice'; lab.dataset.id=ch.id;
+      lab.innerHTML = `<input type="checkbox" /> <div><strong>${ch.id}</strong>. ${ch.text[UI_LANG]||ch.text.es}</div>`;
+      lab.addEventListener('click',e=>{ if(e.target.tagName.toLowerCase()!=='input'){ const inp=lab.querySelector('input'); inp.checked=!inp.checked; } });
+      choices.appendChild(lab);
     });
-
-    $('#explain').classList.add('hidden');
-    $('#explain').textContent = '';
+    // restaurar selección si existe (práctica)
+    const prevSel = (MODE==='practice')? (DATA.practiceSel[q.id]||[]) : (EXAM?.answers[q.id]||[]);
+    prevSel.forEach(id=>{ const el=$(`#choices .choice[data-id="${id}"] input`); if(el) el.checked=true; });
+    $('#explain').classList.add('hidden'); $('#explain').textContent='';
     updateProgress();
   }
-
-  function getSelected(){
-    return $$('#choices .choice').filter(c=>c.querySelector('input').checked).map(c=>c.dataset.id);
-  }
-
+  function getSelected(){ return $$('#choices .choice').filter(c=>c.querySelector('input').checked).map(c=>c.dataset.id); }
   function markChoiceStates(correctSet, selected){
-    $$('#choices .choice').forEach(el=>{
-      const id = el.dataset.id;
-      el.classList.remove('correct','incorrect');
-      if(selected.includes(id)){
-        el.classList.add(correctSet.has(id)?'correct':'incorrect');
-      }
-    });
+    $$('#choices .choice').forEach(el=>{ const id=el.dataset.id; el.classList.remove('correct','incorrect'); if(selected.includes(id)){ el.classList.add(correctSet.has(id)?'correct':'incorrect'); } });
   }
 
   function checkAnswer(showOnly=false){
-    const q = DATA.questions[INDEX];
-    const correctSet = new Set(q.correct||[]);
-    const selected = getSelected();
-    if(showOnly){
-      // Reveal answer
-      markChoiceStates(correctSet, Array.from(correctSet));
-    } else {
-      markChoiceStates(correctSet, selected);
+    const q = DATA.questions[INDEX]; const correctSet=new Set(q.correct||[]); const selected=getSelected();
+    if(MODE==='practice' && !showOnly){ DATA.practiceSel[q.id]=selected; }
+    if(MODE==='exam' && EXAM && !showOnly){ EXAM.answers[q.id]=selected; }
+    markChoiceStates(correctSet, showOnly? Array.from(correctSet): selected);
+    if(!showOnly){
+      DATA.progress.seen[q.id]=(DATA.progress.seen[q.id]||0)+1;
       const right = selected.length===correctSet.size && selected.every(x=>correctSet.has(x));
-      // progress
-      DATA.progress.seen[q.id] = (DATA.progress.seen[q.id]||0) + 1;
-      if(right){ DATA.progress.correct[q.id] = (DATA.progress.correct[q.id]||0) + 1; }
+      if(right){ DATA.progress.correct[q.id]=(DATA.progress.correct[q.id]||0)+1; }
       saveState(PROFILE, DATA);
     }
-    const exp = $('#explain');
     const ansLabel = (UI_LANG==='es'?'Respuesta correcta: ':'Правильный ответ: ')+ (q.correct||[]).join(', ');
-    exp.innerHTML = `<div style="margin-bottom:6px"><strong>${ansLabel}</strong></div>` + (q.explanation?.[UI_LANG] || q.explanation?.ru || '');
-    exp.classList.remove('hidden');
+    $('#explain').innerHTML = `<div style="margin-bottom:6px"><strong>${ansLabel}</strong></div>` + (q.explanation?.[UI_LANG] || q.explanation?.es || '');
+    $('#explain').classList.remove('hidden');
   }
 
-  function next(){
-    if(MODE==='exam' && EXAM){
-      const pos = EXAM.order.indexOf(INDEX);
-      if(pos < EXAM.order.length-1){ INDEX = EXAM.order[pos+1]; renderQuestion(); }
-      else { finishExam(); }
-    } else {
-      INDEX = (INDEX+1) % DATA.questions.length; renderQuestion();
-    }
-  }
-  function prev(){
-    if(MODE==='exam' && EXAM){
-      const pos = EXAM.order.indexOf(INDEX);
-      if(pos>0){ INDEX = EXAM.order[pos-1]; renderQuestion(); }
-    } else {
-      INDEX = (INDEX-1+DATA.questions.length) % DATA.questions.length; renderQuestion();
-    }
-  }
+  function next(){ if(MODE==='exam' && EXAM){ const pos=EXAM.order.indexOf(INDEX); if(pos<EXAM.order.length-1){ INDEX=EXAM.order[pos+1]; renderQuestion(); } else { finishExam(); } } else { INDEX=(INDEX+1)%DATA.questions.length; renderQuestion(); } }
+  function prev(){ if(MODE==='exam' && EXAM){ const pos=EXAM.order.indexOf(INDEX); if(pos>0){ INDEX=EXAM.order[pos-1]; renderQuestion(); } } else { INDEX=(INDEX-1+DATA.questions.length)%DATA.questions.length; renderQuestion(); } }
 
-  // -------------------- Exam mode --------------------
+  // ==== Examen ====
   function startExam(){
-    const all = DATA.questions.map((_,i)=>i);
-    const count = Math.min(Math.max(parseInt($('#examCount').value||'30',10),1), all.length);
-    const shuffled = $('#examShuffle').value==='1' ? shuffle(all) : all;
-    EXAM = { order: shuffled.slice(0,count), answers: {}, startedAt: Date.now() };
-    INDEX = EXAM.order[0];
-    $('#qa').classList.remove('hidden');
-    renderQuestion();
+    const all = DATA.questions.map((_,i)=>i); const count = Math.min(Math.max(parseInt($('#examCount').value||'30',10),1), all.length);
+    const shuffled = $('#examShuffle').value==='1' ? all.sort(()=>Math.random()-0.5) : all;
+    EXAM={ order: shuffled.slice(0,count), answers:{}, startedAt: Date.now() };
+    INDEX = EXAM.order[0]; $('#qa').classList.remove('hidden'); renderQuestion();
   }
-
   function finishExam(){
-    // Compute score using saved correctness from this attempt (simple re-check)
-    let ok=0,total=EXAM.order.length; const wrongList=[];
-    EXAM.order.forEach(idx=>{
-      const q = DATA.questions[idx];
-      // Just estimate: if last attempt for q was correct (progress.correct incremented when checked right), we cannot reliably detect per-exam.
-      // Instead, we recompute with stored user selection if we had one; for simplicity here, prompt user to review.
-      // We'll approximate by asking user to review incorrect marked ones — but since we don't store per-question answers, we compute nothing.
-      // Better: evaluate now from currently selected inputs (if user pressed Check). We'll treat unanswered as wrong.
-      const correctSet = new Set(q.correct||[]), sel = [];
-      // no selection data saved per exam; skip.
-      // Fallback: count all as "seen" and rely on practice per-question. Show generic message.
-    });
-
-    const attempt = { at: Date.now(), total: total, correct: null };
-    DATA.exams.push(attempt);
-    saveState(PROFILE, DATA);
-    $('#examStats').textContent = 'Экзамен завершён. Просмотрите вопросы ещё раз в режиме Практика или заново начните попытку.';
+    let ok=0; const total = EXAM.order.length; const review=[];
+    EXAM.order.forEach(i=>{ const q=DATA.questions[i]; const sel=EXAM.answers[q.id]||[]; const set=new Set(q.correct||[]); const right = sel.length===set.size && sel.every(x=>set.has(x)); if(right) ok++; review.push({q, sel, right}); });
+    const attempt = {at:Date.now(), total, correct:ok}; DATA.exams.push(attempt); saveState(PROFILE, DATA);
+    const stats = (UI_LANG==='es'?`Resultado: ${ok} de ${total}`:`Результат: ${ok} из ${total}`); $('#examStats').textContent = stats;
+    const box=$('#examReview'); box.innerHTML=''; review.forEach(item=>{ const div=document.createElement('div'); div.className='muted'; const s=item.sel.join(', ')||'—'; div.textContent = `${item.right?'✅':'❌'} ${item.q.question.es} | Tu: ${s} | OK: ${(item.q.correct||[]).join(', ')}`; box.appendChild(div); });
+    setMode('exam');
   }
+  function renderExamHistory(){ const box=$('#examReview'); box.innerHTML=''; if(!DATA.exams.length){ $('#examStats').textContent='Sin intentos.'; return; } const last=DATA.exams[DATA.exams.length-1]; $('#examStats').textContent=`Resultado: ${last.correct} / ${last.total}`; DATA.exams.slice().reverse().forEach(at=>{ const div=document.createElement('div'); div.className='muted'; div.textContent = `${new Date(at.at).toLocaleString()} — ${at.correct}/${at.total}`; box.appendChild(div); }); }
 
-  function renderExamHistory(){
-    const box = $('#examReview');
-    box.innerHTML = '';
-    if(!DATA.exams.length){ $('#examStats').textContent = 'Пока нет попыток.'; return; }
-    const last = DATA.exams[DATA.exams.length-1];
-    $('#examStats').textContent = last.correct==null ? `Попыток: ${DATA.exams.length}` : (i18n[UI_LANG]?.result(last.correct,last.total));
-    DATA.exams.slice().reverse().forEach((at,i)=>{
-      const div = document.createElement('div');
-      const date = new Date(at.at).toLocaleString();
-      div.className='muted';
-      div.textContent = `${date} — ${at.correct==null? 'завершено' : (i18n[UI_LANG]?.result(at.correct, at.total))}`;
-      box.appendChild(div);
-    });
-  }
+  // ==== Ajustes / Import / Export ====
+  function openSettings(){ $('#settingsPanel').classList.remove('hidden'); $('#profileName').value=PROFILE; $('#uiLang').value=UI_LANG; }
+  function closeSettings(){ PROFILE=($('#profileName').value||'default').trim()||'default'; UI_LANG=$('#uiLang').value||'es'; localStorage.setItem('profileName',PROFILE); localStorage.setItem('uiLang',UI_LANG); initData(); INDEX=0; renderQuestion(); renderExamHistory(); $('#settingsPanel').classList.add('hidden'); }
 
-  // -------------------- Settings panel --------------------
-  function openSettings(){
-    $('#settingsPanel').classList.remove('hidden');
-    $('#profileName').value = PROFILE;
-    $('#uiLang').value = UI_LANG;
-  }
-  function closeSettings(){
-    PROFILE = ($('#profileName').value||'default').trim() || 'default';
-    UI_LANG = $('#uiLang').value || 'ru';
-    localStorage.setItem('profileName', PROFILE);
-    localStorage.setItem('uiLang', UI_LANG);
-    initData(); setOrder(); INDEX=0; updateTexts(); renderQuestion(); renderExamHistory();
-    $('#settingsPanel').classList.add('hidden');
-  }
+  $('#importFile').addEventListener('change', async (e)=>{ const f=e.target.files?.[0]; if(!f) return; try{ const text=await f.text(); const arr=JSON.parse(text); if(!Array.isArray(arr)||!arr.length) throw new Error('JSON debe ser un array.'); for(const q of arr){ if(typeof q.id==='undefined') q.id=Math.random().toString(36).slice(2); if(!q.question||!q.choices||!q.correct) throw new Error('Campos requeridos: question, choices, correct'); } DATA.questions=arr; DATA.progress={seen:{},correct:{},hard:{}}; DATA.practiceSel={}; saveState(PROFILE, DATA); INDEX=0; renderQuestion(); alert('Preguntas importadas.'); }catch(err){ alert('Error al importar: '+err.message); } e.target.value=''; });
+  $('#btnExport').addEventListener('click', ()=>{ const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`dgt_trainer_${PROFILE}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1500); });
+  $('#btnReset').addEventListener('click', ()=>{ if(confirm('¿Reiniciar progreso local?')){ DATA.progress={seen:{},correct:{},hard:{}}; DATA.practiceSel={}; DATA.exams=[]; saveState(PROFILE, DATA); alert('Progreso reiniciado.'); }});
+  $('#btnLoadLF').addEventListener('click', ()=>{ if(confirm('Cargar el pack de ejemplo “Lectura Fácil”? Esto sustituirá la base actual.')){ DATA.questions=lfQuestions; DATA.progress={seen:{},correct:{},hard:{}}; DATA.practiceSel={}; saveState(PROFILE, DATA); INDEX=0; renderQuestion(); alert('Pack cargado.'); }});
 
-  // -------------------- Import / Export / Reset --------------------
-  $('#importFile').addEventListener('change', async (e)=>{
-    const file = e.target.files?.[0]; if(!file) return;
-    try{
-      const text = await file.text();
-      const arr = JSON.parse(text);
-      if(!Array.isArray(arr) || !arr.length) throw new Error('Неверный формат JSON. Ожидается массив объектов вопросов.');
-      // Minimal validation
-      for(const q of arr){
-        if(typeof q.id==='undefined') q.id = Math.random().toString(36).slice(2);
-        if(!q.question || typeof q.question!=='object') throw new Error('У вопроса отсутствует поле question.{ru|es}');
-        if(!Array.isArray(q.choices) || !Array.isArray(q.correct)) throw new Error('Нужны поля choices[] и correct[]');
-      }
-      DATA.questions = arr;
-      DATA.progress = { seen:{}, correct:{}, hard:{} };
-      saveState(PROFILE, DATA);
-      setOrder(); INDEX=0; renderQuestion(); alert('Вопросы импортированы. Прогресс сброшен для новой базы.');
-    }catch(err){ alert('Ошибка импорта: '+ err.message); }
-    e.target.value = '';
-  });
-
-  $('#btnExport').addEventListener('click', ()=>{
-    const blob = new Blob([JSON.stringify(DATA,null,2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href=url; a.download=`dgt_trainer_${PROFILE}.json`; a.click();
-    setTimeout(()=>URL.revokeObjectURL(url), 2000);
-  });
-
-  $('#btnReset').addEventListener('click', ()=>{
-    if(confirm('Сбросить локальный прогресс для текущего профиля?')){
-      DATA.progress = { seen:{}, correct:{}, hard:{} };
-      DATA.exams = [];
-      saveState(PROFILE, DATA);
-      alert('Прогресс сброшен.');
-    }
-  });
-
-  // -------------------- Events --------------------
+  // ==== Eventos de UI ====
   $('#modePractice').addEventListener('click', ()=>{ setMode('practice'); $('#qa').classList.remove('hidden'); renderQuestion(); });
   $('#modeExam').addEventListener('click', ()=>{ setMode('exam'); renderExamHistory(); $('#qa').classList.add('hidden'); });
-  $('#btnSettings').addEventListener('click', openSettings);
-  $('#btnCloseSettings').addEventListener('click', closeSettings);
-
-  $('#btnPrev').addEventListener('click', prev);
-  $('#btnNext').addEventListener('click', next);
-  $('#btnCheck').addEventListener('click', ()=>checkAnswer(false));
-  $('#btnReveal').addEventListener('click', ()=>checkAnswer(true));
-  $('#btnMarkHard').addEventListener('click', ()=>{
-    const q = DATA.questions[INDEX];
-    DATA.progress.hard[q.id] = !DATA.progress.hard[q.id];
-    saveState(PROFILE, DATA);
-    alert(DATA.progress.hard[q.id]? 'Помечено как сложный.' : 'Метка сложного снята.');
-  });
-
+  $('#btnSettings').addEventListener('click', openSettings); $('#btnCloseSettings').addEventListener('click', closeSettings);
+  $('#btnPrev').addEventListener('click', prev); $('#btnNext').addEventListener('click', next);
+  $('#btnCheck').addEventListener('click', ()=>checkAnswer(false)); $('#btnReveal').addEventListener('click', ()=>checkAnswer(true));
+  $('#btnMarkHard').addEventListener('click', ()=>{ const q=DATA.questions[INDEX]; DATA.progress.hard[q.id]=!DATA.progress.hard[q.id]; saveState(PROFILE, DATA); alert(DATA.progress.hard[q.id]?'Marcado como difícil.':'Quitada la marca.'); });
   $('#btnStartExam').addEventListener('click', startExam);
 
-  // -------------------- Boot --------------------
-  (function(){
-    initData(); setOrder(); updateTexts(); setMode('practice'); renderQuestion(); renderExamHistory();
-    // iOS 300ms tap delay guard
-    document.addEventListener('touchstart', ()=>{}, {passive:true});
-  })();
+  // ==== Boot ====
+  (function(){ initData(); setMode('practice'); renderQuestion(); renderExamHistory(); document.addEventListener('touchstart',()=>{}, {passive:true}); })();
   </script>
 </body>
 </html>
