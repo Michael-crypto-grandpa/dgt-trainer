@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>DGT iPhone Trainer — Easy Reading (EN)</title>
-  <meta name="description" content="Simple offline trainer for Spain's theory test. Practice & exam modes, images, per-user progress. 'Lectura Fácil' style (unofficial)." />
+  <meta name="description" content="Simple iPhone-ready trainer for Spain's theory test. Practice & exam modes, images, per-user progress. Includes DGT Magazine 2023–2025 packs (EN)." />
   <style>
     :root{ --bg:#0b0f14; --panel:#121821; --card:#18202b; --ink:#e7eef7; --muted:#a9b7c8; --acc:#5bd4ff; --good:#1ec28b; --bad:#ff6b6b}
     *{box-sizing:border-box}
@@ -82,7 +82,14 @@
               </label>
               <button id="btnExport" class="btn small">📤 Export (Q&A + progress)</button>
             </div>
-            <button id="btnLoadLF" class="btn small">⬇️ Load “Easy Reading” pack (included)</button>
+            <div class="row">
+              <button id="btnLoadLF" class="btn small">⬇️ Load “Easy Reading” pack (included)</button>
+            </div>
+            <div class="row">
+              <button id="btnLoadDgt" class="btn small">🔗 Load DGT Magazine 2023–2025 (EN)</button>
+              <select id="dgtSelect" class="btn small" style="display:none"></select>
+              <button id="btnApplyDgt" class="btn small" style="display:none">Use selected pack</button>
+            </div>
             <button id="btnReset" class="btn small" style="background:#2a0f14;border-color:#5a1b22">♻️ Reset progress</button>
             <details>
               <summary>📄 JSON format example</summary>
@@ -162,159 +169,82 @@
   </main>
 
   <script>
+  // ====== Basics & storage ======
   let UI_LANG = localStorage.getItem('uiLang') || 'en';
   let PROFILE = localStorage.getItem('profileName') || 'Michael';
 
-  const builtinQuestions = [
-    {
-      "id": 3001,
-      "topic": "Lights",
-      "image": null,
-      "question": {"en": "During the day, is it obligatory to turn on the vehicle’s lights when driving through certain areas?"},
-      "choices": [
-        {"id": "A", "text": {"en": "Yes, for example when driving over a movable bridge."}},
-        {"id": "B", "text": {"en": "Yes, for example when driving in a tunnel or underpass."}},
-        {"id": "C", "text": {"en": "Yes, for example when driving on a high-occupancy vehicle lane."}}
-      ],
-      "correct": ["B"],
-      "explanation": {"en": "In Spain, the law requires using low-beam headlights during the day in tunnels, underpasses or stretches marked with the \"Tunnel\" sign (S-5). This is for safety due to the reduced visibility inside such areas."}
-    },
-    {
-      "id": 3002,
-      "topic": "Priority",
-      "image": null,
-      "question": {"en": "What is the order of priority among traffic signals, traffic lights, and police officers directing traffic?"},
-      "choices": [
-        {"id": "A", "text": {"en": "Traffic signs, then police officers, then traffic lights."}},
-        {"id": "B", "text": {"en": "Police officers, then traffic lights, then traffic signs."}},
-        {"id": "C", "text": {"en": "Traffic lights, then police officers, then traffic signs."}}
-      ],
-      "correct": ["B"],
-      "explanation": {"en": "A police officer’s orders override any other signals. If no officer is present, traffic lights have priority over static signs. Therefore, the hierarchy is: first obey police officers, then traffic lights, and finally road signs."}
-    },
-    {
-      "id": 3003,
-      "topic": "Signs",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Spain_traffic_signal_r114.svg/1024px-Spain_traffic_signal_r114.svg.png",
-      "question": {"en": "This road sign indicates no entry for which kind of vehicles?"},
-      "choices": [
-        {"id": "A", "text": {"en": "No entry for bicycles and mopeds."}},
-        {"id": "B", "text": {"en": "No entry for bicycles (cycles)."}},
-        {"id": "C", "text": {"en": "No entry for any two-wheeled vehicles."}}
-      ],
-      "correct": ["B"],
-      "explanation": {"en": "The depicted sign (a red circle with a bicycle) means entry prohibited to cycles (bicycles). It specifically forbids bicycles, but not other two-wheelers like mopeds (those have a different sign)."}
-    },
-    {
-      "id": 3004,
-      "topic": "Drugs & driving",
-      "image": null,
-      "question": {"en": "In general, under the effects of cocaine a driver will..."},
-      "choices": [
-        {"id": "A", "text": {"en": "feel insecure and underestimate their abilities at the wheel."}},
-        {"id": "B", "text": {"en": "concentrate better, making safer decisions."}},
-        {"id": "C", "text": {"en": "become overly confident, competitive, and impulsive."}}
-      ],
-      "correct": ["C"],
-      "explanation": {"en": "Stimulant drugs like cocaine can make drivers agitated, aggressive, and overconfident. A driver who has consumed cocaine tends to overestimate their abilities and drive in an impulsive, competitive manner, which increases risk."}
-    },
-    {
-      "id": 3005,
-      "topic": "Seat belt",
-      "image": null,
-      "question": {"en": "Are pregnant women required to wear a seat belt while traveling in a vehicle?"},
-      "choices": [
-        {"id": "A", "text": {"en": "Yes, as a general rule they must wear a seat belt."}},
-        {"id": "B", "text": {"en": "No, because the seat belt could be dangerous for the unborn baby."}},
-        {"id": "C", "text": {"en": "Only if it does not cause them discomfort while driving."}}
-      ],
-      "correct": ["A"],
-      "explanation": {"en": "Since 2016, pregnant women are not exempt from wearing seat belts. They are required to buckle up just like any other driver or passenger (with very limited medical exceptions), because proper seat belt use greatly improves safety for both mother and fetus."}
-    },
-    {
-      "id": 3006,
-      "topic": "Heat & conditions",
-      "image": null,
-      "question": {"en": "High temperatures can negatively affect driving abilities. A driver exposed to intense heat usually:"},
-      "choices": [
-        {"id": "A", "text": {"en": "Reacts more slowly and tends to be less aggressive."}},
-        {"id": "B", "text": {"en": "Reacts more slowly and tends to be more irritable or aggressive."}},
-        {"id": "C", "text": {"en": "Reacts faster than usual due to being uncomfortable."}}
-      ],
-      "correct": ["B"],
-      "explanation": {"en": "Extreme heat can impair a driver’s performance. Studies show that heat causes slower reaction times and increases aggressive or irritable behavior in drivers. For example, a car interior over 30 °C leads to significantly delayed reactions and more errors due to driver discomfort."}
-    },
-    {
-      "id": 3007,
-      "topic": "Hand signals",
-      "image": null,
-      "question": {"en": "If your car’s reverse light is broken, how should you signal that you intend to reverse the car?"},
-      "choices": [
-        {"id": "A", "text": {"en": "By moving your arm up and down outside the window."}},
-        {"id": "B", "text": {"en": "By extending your arm out the window with your palm facing backward."}},
-        {"id": "C", "text": {"en": "By using the horn intermittently as you reverse."}}
-      ],
-      "correct": ["B"],
-      "explanation": {"en": "When the white reversing light is not working, you must give a hand signal. The correct arm signal for reversing is extending the left arm out with the palm facing backward. This alerts others that you are about to move in reverse."}
-    },
-    {
-      "id": 3008,
-      "topic": "Moped manoeuvres",
-      "image": null,
-      "question": {"en": "On a two-way single-lane road outside a town, where should a moped position itself to turn left if there is no dedicated left-turn lane?"},
-      "choices": [
-        {"id": "A", "text": {"en": "Move to the center of the road, without encroaching the opposite lane."}},
-        {"id": "B", "text": {"en": "Stay in the center of its lane (middle of its lane) before turning."}},
-        {"id": "C", "text": {"en": "Keep as far to the right edge of the road as possible, even off the road if there is space."}}
-      ],
-      "correct": ["C"],
-      "explanation": {"en": "On interurban roads, two-wheeled cycles and mopeds must, if turning left and no dedicated lane exists, pull over to the far right edge or shoulder and wait there to make the left turn. This way they do not block faster vehicles coming behind them. They should only execute the left turn when it’s safe to do so."}
-    },
-    {
-      "id": 3009,
-      "topic": "Road markings",
-      "image": null,
-      "question": {"en": "This broken white line across the road at an intersection – does it require you to stop before crossing it?"},
-      "choices": [
-        {"id": "A", "text": {"en": "Only if visibility is poor."}},
-        {"id": "B", "text": {"en": "No, because not stopping poses no danger to traffic."}},
-        {"id": "C", "text": {"en": "No, you only must stop if necessary to give way to other vehicles."}}
-      ],
-      "correct": ["C"],
-      "explanation": {"en": "A broken transverse line on the road indicates a yield line. It marks a point where you must slow down and be prepared to stop to cede priority. You are not required to stop outright if the way is clear – only stop if needed to let other vehicles (or pedestrians) pass, as indicated by a yield sign."}
-    },
-    {
-      "id": 3010,
-      "topic": "Fatigue",
-      "image": null,
-      "question": {"en": "To avoid the onset of drowsiness while driving, it is advisable to sleep..."},
-      "choices": [
-        {"id": "A", "text": {"en": "between 5 and 7 hours per day."}},
-        {"id": "B", "text": {"en": "fewer hours than normal, to keep your alertness high."}},
-        {"id": "C", "text": {"en": "at least 7 to 8 hours per day on a regular basis."}}
-      ],
-      "correct": ["C"],
-      "explanation": {"en": "Getting sufficient sleep is one of the best ways to prevent driver fatigue. It’s recommended to sleep around 7–9 hours each night. In fact, Spain’s DGT advises sleeping a minimum of 7 hours before a long drive. Driving with less sleep greatly increases the risk of accidents."}
-    }
-  ];
-
   const $ = s=>document.querySelector(s); const $$ = s=>Array.from(document.querySelectorAll(s));
-  const storeKey = p=>`dgt_trainer_en_v1::${p||'default'}`;
+  const storeKey = p=>`dgt_trainer_en_v2::${p||'default'}`;
   const loadState = p=>{ try{return JSON.parse(localStorage.getItem(storeKey(p)))||{};}catch{return{}} };
   const saveState = (p,d)=>localStorage.setItem(storeKey(p), JSON.stringify(d));
 
-  let DATA = { questions: [], progress:{seen:{},correct:{},hard:{}}, exams:[], practiceSel:{} };
-  let MODE='practice'; let INDEX=0; let EXAM=null;
+  // Built-in small EN pack (fallback)
+  const builtinQuestions = [
+    {"id": 4001, "topic": "Lights", "image": null,
+      "question": {"en": "During the day, is it obligatory to turn on the vehicle’s lights when driving through certain areas?"},
+      "choices": [
+        {"id":"A","text":{"en":"Yes, for example when driving over a movable bridge."}},
+        {"id":"B","text":{"en":"Yes, for example when driving in a tunnel or underpass."}},
+        {"id":"C","text":{"en":"Yes, for example when driving on a high-occupancy vehicle lane."}}
+      ], "correct":["B"],
+      "explanation": {"en": "Use low-beam headlights during the day in tunnels/underpasses or where the 'Tunnel' sign appears."}
+    },
+    {"id": 4002, "topic": "Priority", "image": null,
+      "question": {"en":"What is the order of priority among traffic signals, traffic lights, and police officers directing traffic?"},
+      "choices": [
+        {"id":"A","text":{"en":"Traffic signs, then police officers, then traffic lights."}},
+        {"id":"B","text":{"en":"Police officers, then traffic lights, then traffic signs."}},
+        {"id":"C","text":{"en":"Traffic lights, then police officers, then traffic signs."}}
+      ], "correct":["B"],
+      "explanation": {"en": "Officers' orders override other signals. If none, traffic lights over static signs."}
+    },
+    {"id": 4003, "topic": "Signs",
+      "image":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Spain_traffic_signal_r114.svg/1024px-Spain_traffic_signal_r114.svg.png",
+      "question": {"en":"This road sign indicates no entry for which kind of vehicles?"},
+      "choices": [
+        {"id":"A","text":{"en":"No entry for bicycles and mopeds."}},
+        {"id":"B","text":{"en":"No entry for bicycles (cycles)."}},
+        {"id":"C","text":{"en":"No entry for any two-wheeled vehicles."}}
+      ], "correct":["B"],
+      "explanation": {"en": "Red circle with bicycle = bicycles prohibited specifically (mopeds use a different sign)."}
+    },
+    {"id": 4004, "topic": "Drugs & driving", "image": null,
+      "question": {"en":"In general, under the effects of cocaine a driver will..."},
+      "choices": [
+        {"id":"A","text":{"en":"feel insecure and underestimate their abilities at the wheel."}},
+        {"id":"B","text":{"en":"concentrate better, making safer decisions."}},
+        {"id":"C","text":{"en":"become overly confident, competitive, and impulsive."}}
+      ], "correct":["C"],
+      "explanation": {"en": "Stimulants increase risk-taking and overconfidence."}
+    },
+    {"id": 4005, "topic": "Seat belt", "image": null,
+      "question": {"en":"Are pregnant women required to wear a seat belt while traveling in a vehicle?"},
+      "choices": [
+        {"id":"A","text":{"en":"Yes, as a general rule they must wear a seat belt."}},
+        {"id":"B","text":{"en":"No, because the seat belt could be dangerous for the unborn baby."}},
+        {"id":"C","text":{"en":"Only if it does not cause them discomfort while driving."}}
+      ], "correct":["A"],
+      "explanation": {"en": "Pregnant occupants must buckle up unless there's a certified medical exemption."}
+    }
+  ];
 
+  let DATA = { questions: [], progress:{seen:{},correct:{},hard:{}}, exams:[], practiceSel:{} };
+  let MODE='practice'; let INDEX=0; let EXAM=null; let DGT_DATA=null;
+
+  // ====== Core helpers ======
   function initData(){
     const saved = loadState(PROFILE);
     if(saved && saved.questions && saved.questions.length){ DATA=saved; }
-    else { DATA.questions = builtinQuestions; saveState(PROFILE, DATA); }
+    else { DATA.questions = builtinQuestions.slice(); saveState(PROFILE, DATA); }
   }
-
+  function loadQuestions(arr, reset=true){
+    DATA.questions = Array.isArray(arr) ? arr : [];
+    if(reset){ DATA.progress={seen:{},correct:{},hard:{}}; DATA.practiceSel={}; DATA.exams=[]; }
+    saveState(PROFILE, DATA); INDEX=0; renderQuestion(); renderExamHistory();
+  }
   function setMode(m){ MODE=m; $('#modePractice').classList.toggle('active',m==='practice'); $('#modeExam').classList.toggle('active',m==='exam'); $('#examPanel').classList.toggle('hidden', m!=='exam'); $('#qa').classList.toggle('hidden', m==='exam' && !EXAM); updateProgress(); }
   function updateProgress(){ const total = MODE==='exam' && EXAM? EXAM.order.length : DATA.questions.length; const current = MODE==='exam' && EXAM? (EXAM.order.indexOf(INDEX)+1) : (INDEX+1); $('#progressBar').style.width = (total?Math.round(current*100/total):0)+'%'; $('#progressText').textContent = `${current} / ${total}`; }
-  function renderQuestion(){ const q = DATA.questions[INDEX]; if(!q) return; $('#topic').textContent = q.topic||''; const img=$('#qImage'); if(q.image){ img.src=q.image; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } const qtxt = q.question[UI_LANG] || q.question.en || q.question.es || q.question.ru || ''; $('#qText').textContent = qtxt; const choices=$('#choices'); choices.innerHTML=''; (q.choices||[]).forEach(ch=>{ const lab=document.createElement('label'); lab.className='choice'; lab.dataset.id=ch.id; const ctext = ch.text[UI_LANG] || ch.text.en || ch.text.es || ch.text.ru || ''; lab.innerHTML = `<input type="checkbox" /> <div><strong>${ch.id}</strong>. ${ctext}</div>`; lab.addEventListener('click',e=>{ if(e.target.tagName.toLowerCase()!=='input'){ const inp=lab.querySelector('input'); inp.checked=!inp.checked; } }); choices.appendChild(lab); }); const prevSel = (MODE==='practice')? (DATA.practiceSel[q.id]||[]) : (EXAM && EXAM.answers ? (EXAM.answers[q.id]||[]) : []); prevSel.forEach(id=>{ const el=$(`#choices .choice[data-id="${id}"] input`); if(el) el.checked=true; }); $('#explain').classList.add('hidden'); $('#explain').textContent=''; updateProgress(); }
+  function renderQuestion(){ const q = DATA.questions[INDEX]; if(!q) return; $('#topic').textContent = q.topic||''; const img=$('#qImage'); if(q.image){ img.src=q.image; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } const qtxt = (q.question && (q.question[UI_LANG] || q.question.en || q.question.es || q.question.ru)) || ''; $('#qText').textContent = qtxt; const choices=$('#choices'); choices.innerHTML=''; (q.choices||[]).forEach(ch=>{ const lab=document.createElement('label'); lab.className='choice'; lab.dataset.id=ch.id; const ctext = ch.text && (ch.text[UI_LANG] || ch.text.en || ch.text.es || ch.text.ru) || ''; lab.innerHTML = `<input type="checkbox" /> <div><strong>${ch.id}</strong>. ${ctext}</div>`; lab.addEventListener('click',e=>{ if(e.target.tagName.toLowerCase()!=='input'){ const inp=lab.querySelector('input'); inp.checked=!inp.checked; } }); choices.appendChild(lab); }); const prevSel = (MODE==='practice')? (DATA.practiceSel[q.id]||[]) : (EXAM && EXAM.answers ? (EXAM.answers[q.id]||[]) : []); prevSel.forEach(id=>{ const el=$(`#choices .choice[data-id="${id}"] input`); if(el) el.checked=true; }); $('#explain').classList.add('hidden'); $('#explain').textContent=''; updateProgress(); }
   function getSelected(){ return $$('#choices .choice').filter(c=>c.querySelector('input').checked).map(c=>c.dataset.id); }
   function markChoiceStates(correctSet, selected){ $$('#choices .choice').forEach(el=>{ const id=el.dataset.id; el.classList.remove('correct','incorrect'); if(selected.includes(id)){ el.classList.add(correctSet.has(id)?'correct':'incorrect'); } }); }
   function checkAnswer(showOnly=false){ const q = DATA.questions[INDEX]; const correctSet=new Set(q.correct||[]); const selected=getSelected(); if(MODE==='practice' && !showOnly){ DATA.practiceSel[q.id]=selected; } if(MODE==='exam' && EXAM && !showOnly){ EXAM.answers[q.id]=selected; } markChoiceStates(correctSet, showOnly? Array.from(correctSet): selected); if(!showOnly){ DATA.progress.seen[q.id]=(DATA.progress.seen[q.id]||0)+1; const right = selected.length===correctSet.size && selected.every(x=>correctSet.has(x)); if(right){ DATA.progress.correct[q.id]=(DATA.progress.correct[q.id]||0)+1; } saveState(PROFILE, DATA); } const ansLabel = 'Correct answer: '+ (q.correct||[]).join(', '); const expl = (q.explanation && (q.explanation[UI_LANG] || q.explanation.en || q.explanation.es || q.explanation.ru)) || ''; $('#explain').innerHTML = `<div style="margin-bottom:6px"><strong>${ansLabel}</strong></div>` + expl; $('#explain').classList.remove('hidden'); }
@@ -323,19 +253,57 @@
   function startExam(){ const all = DATA.questions.map((_,i)=>i); const count = Math.min(Math.max(parseInt($('#examCount').value||'30',10),1), all.length); const shuffled = $('#examShuffle').value==='1' ? all.sort(()=>Math.random()-0.5) : all; EXAM={ order: shuffled.slice(0,count), answers:{}, startedAt: Date.now() }; INDEX = EXAM.order[0]; $('#qa').classList.remove('hidden'); renderQuestion(); }
   function finishExam(){ let ok=0; const total = EXAM.order.length; const review=[]; EXAM.order.forEach(i=>{ const q=DATA.questions[i]; const sel=EXAM.answers[q.id]||[]; const set=new Set(q.correct||[]); const right = sel.length===set.size && sel.every(x=>set.has(x)); if(right) ok++; review.push({q, sel, right}); }); const attempt = {at:Date.now(), total, correct:ok}; DATA.exams.push(attempt); saveState(PROFILE, DATA); $('#examStats').textContent = `Result: ${ok} of ${total}`; const box=$('#examReview'); box.innerHTML=''; review.forEach(item=>{ const div=document.createElement('div'); div.className='muted'; const s=item.sel.join(', ')||'—'; const qtxt=(item.q.question && (item.q.question[UI_LANG]||item.q.question.en))||''; div.textContent = `${item.right?'✅':'❌'} ${qtxt} | You: ${s} | OK: ${(item.q.correct||[]).join(', ')}`; box.appendChild(div); }); setMode('exam'); }
   function renderExamHistory(){ const box=$('#examReview'); box.innerHTML=''; if(!DATA.exams.length){ $('#examStats').textContent='No attempts yet.'; return; } const last=DATA.exams[DATA.exams.length-1]; $('#examStats').textContent=`Result: ${last.correct} / ${last.total}`; DATA.exams.slice().reverse().forEach(at=>{ const div=document.createElement('div'); div.className='muted'; div.textContent = `${new Date(at.at).toLocaleString()} — ${at.correct}/${at.total}`; box.appendChild(div); }); }
-  function openSettings(){ $('#settingsPanel').classList.remove('hidden'); $('#profileName').value=PROFILE; $('#uiLang').value=UI_LANG; }
-  function closeSettings(){ PROFILE=($('#profileName').value||'default').trim()||'default'; UI_LANG=$('#uiLang').value||'en'; localStorage.setItem('profileName',PROFILE); localStorage.setItem('uiLang',UI_LANG); initData(); INDEX=0; renderQuestion(); renderExamHistory(); $('#settingsPanel').classList.add('hidden'); }
-  $('#importFile').addEventListener('change', async (e)=>{ const f=e.target.files?.[0]; if(!f) return; try{ const text=await f.text(); const arr=JSON.parse(text); if(!Array.isArray(arr)||!arr.length) throw new Error('JSON must be an array.'); for(const q of arr){ if(typeof q.id==='undefined') q.id=Math.random().toString(36).slice(2); if(!q.question||!q.choices||!q.correct) throw new Error('Missing: question, choices, correct'); } DATA.questions=arr; DATA.progress={seen:{},correct:{},hard:{}}; DATA.practiceSel={}; saveState(PROFILE, DATA); INDEX=0; renderQuestion(); alert('Questions imported.'); }catch(err){ alert('Import error: '+err.message); } e.target.value=''; });
+
+  // ====== DGT Magazine loader ======
+  async function fetchDgt(){
+    const res = await fetch('dgt_magazine_2023_2025_en.json', {cache:'no-store'});
+    if(!res.ok) throw new Error('dgt_magazine_2023_2025_en.json not found');
+    DGT_DATA = await res.json();
+    const sel = $('#dgtSelect'); sel.innerHTML = '';
+    (DGT_DATA.packs||[]).forEach((p,i)=>{ const opt=document.createElement('option'); opt.value=i; opt.textContent = `${p.source} (${p.month} ${p.year})`; sel.appendChild(opt); });
+    sel.style.display='inline-block'; $('#btnApplyDgt').style.display='inline-block';
+  }
+  function transformMagazineItems(items, sourceLabel){
+    const out=[]; const ids=['A','B','C','D','E'];
+    (items||[]).forEach((it, idx)=>{
+      const opts = Array.isArray(it.options)? it.options.slice(0,5): [];
+      let correctIndex = opts.findIndex(o => (o||'').trim() === (it.correct_answer||'').trim());
+      if(correctIndex<0 && it.correct_answer){ // try loose match
+        const ca = (it.correct_answer||'').toLowerCase().replace(/\s+/g,' ').trim();
+        correctIndex = opts.findIndex(o=> (o||'').toLowerCase().replace(/\s+/g,' ').trim()===ca);
+      }
+      const correct = [ ids[(correctIndex>=0?correctIndex:0)] ];
+      const choices = opts.map((opt,j)=>({ id: ids[j], text: { en: opt } }));
+      out.push({
+        id: `dgt_${Date.now()}_${idx}_${Math.random().toString(36).slice(2,6)}`,
+        topic: sourceLabel || 'DGT Magazine',
+        image: it.image_url || null,
+        question: { en: it.question || '' },
+        choices, correct,
+        explanation: { en: it.explanation || '' }
+      });
+    });
+    return out;
+  }
+
+  // ====== Event bindings ======
+  $('#btnLoadDgt').addEventListener('click', async ()=>{ try{ await fetchDgt(); alert('DGT index loaded. Pick an issue then click “Use selected pack”.'); }catch(err){ alert('Error: '+err.message); } });
+  $('#btnApplyDgt').addEventListener('click', ()=>{ const sel=$('#dgtSelect'); const i=parseInt(sel.value||'0',10); const pack = (DGT_DATA && DGT_DATA.packs)? DGT_DATA.packs[i]: null; if(!pack){ alert('Pack not available'); return; } const qs = transformMagazineItems(pack.items, pack.source); loadQuestions(qs, true); alert(`Loaded: ${pack.source} (${pack.month} ${pack.year})`); $('#settingsPanel').classList.add('hidden'); });
+
+  $('#importFile').addEventListener('change', async (e)=>{ const f=e.target.files?.[0]; if(!f) return; try{ const text=await f.text(); const arr=JSON.parse(text); if(!Array.isArray(arr)||!arr.length) throw new Error('JSON must be an array.'); for(const q of arr){ if(typeof q.id==='undefined') q.id=Math.random().toString(36).slice(2); if(!q.question||!q.choices||!q.correct) throw new Error('Missing: question, choices, correct'); } loadQuestions(arr, true); alert('Questions imported.'); }catch(err){ alert('Import error: '+err.message); } e.target.value=''; });
   $('#btnExport').addEventListener('click', ()=>{ const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`dgt_trainer_${PROFILE}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1500); });
   $('#btnReset').addEventListener('click', ()=>{ if(confirm('Reset local progress?')){ DATA.progress={seen:{},correct:{},hard:{}}; DATA.practiceSel={}; DATA.exams=[]; saveState(PROFILE, DATA); alert('Progress reset.'); } });
-  $('#btnLoadLF').addEventListener('click', ()=>{ if(confirm('Load the included “Easy Reading” pack? This will replace the current base.')){ DATA.questions=builtinQuestions; DATA.progress={seen:{},correct:{},hard:{}}; DATA.practiceSel={}; saveState(PROFILE, DATA); INDEX=0; renderQuestion(); alert('Pack loaded.'); } });
+  $('#btnLoadLF').addEventListener('click', ()=>{ if(confirm('Load the included “Easy Reading” pack? This will replace the current base.')){ loadQuestions(builtinQuestions.slice(), true); alert('Pack loaded.'); } });
   $('#modePractice').addEventListener('click', ()=>{ setMode('practice'); $('#qa').classList.remove('hidden'); renderQuestion(); });
   $('#modeExam').addEventListener('click', ()=>{ setMode('exam'); renderExamHistory(); $('#qa').classList.add('hidden'); });
-  $('#btnSettings').addEventListener('click', openSettings); $('#btnCloseSettings').addEventListener('click', closeSettings);
+  $('#btnSettings').addEventListener('click', ()=>{ $('#settingsPanel').classList.remove('hidden'); $('#profileName').value=PROFILE; $('#uiLang').value=UI_LANG; });
+  $('#btnCloseSettings').addEventListener('click', ()=>{ PROFILE=($('#profileName').value||'default').trim()||'default'; UI_LANG=$('#uiLang').value||'en'; localStorage.setItem('profileName',PROFILE); localStorage.setItem('uiLang',UI_LANG); initData(); INDEX=0; renderQuestion(); renderExamHistory(); $('#settingsPanel').classList.add('hidden'); });
   $('#btnPrev').addEventListener('click', prev); $('#btnNext').addEventListener('click', next);
   $('#btnCheck').addEventListener('click', ()=>checkAnswer(false)); $('#btnReveal').addEventListener('click', ()=>checkAnswer(true));
   $('#btnMarkHard').addEventListener('click', ()=>{ const q=DATA.questions[INDEX]; DATA.progress.hard[q.id]=!DATA.progress.hard[q.id]; saveState(PROFILE, DATA); alert(DATA.progress.hard[q.id]?'Marked as hard.':'Hard mark removed.'); });
   $('#btnStartExam').addEventListener('click', startExam);
+
+  // ====== Boot ======
   (function(){ initData(); setMode('practice'); renderQuestion(); renderExamHistory(); document.addEventListener('touchstart',()=>{}, {passive:true}); })();
   </script>
 </body>
