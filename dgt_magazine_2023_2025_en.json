@@ -1,0 +1,766 @@
+{
+  "title": "DGT Magazine (2023–2025) — English, with images",
+  "generated_at": "2025-09-14T18:30:12.561884Z",
+  "packs": [
+    {
+      "source": "DGT Magazine Test June 2025",
+      "source_issue_no": 274,
+      "year": 2025,
+      "month": "June",
+      "language": "en",
+      "items": [
+        {
+          "question": "During the day, when is it mandatory to switch on the appropriate lights?",
+          "options": [
+            "When driving over a movable bridge.",
+            "On a high-occupancy vehicle (HOV) lane.",
+            "On underpasses or stretches signed as a tunnel."
+          ],
+          "correct_answer": "On underpasses or stretches signed as a tunnel.",
+          "explanation": "Spanish rules require low-beam headlights during the day in tunnels, underpasses, or where the 'Tunnel' sign appears.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P01-250x226.jpg"
+        },
+        {
+          "question": "Among police officers’ signals, traffic lights and road signs, what is the correct priority order?",
+          "options": [
+            "Vertical road signs, then officers, then traffic lights.",
+            "Officers, then traffic lights, then vertical road signs.",
+            "Traffic lights, then officers, then vertical road signs."
+          ],
+          "correct_answer": "Officers, then traffic lights, then vertical road signs.",
+          "explanation": "Officers’ orders override other signals; in their absence, traffic lights take precedence over static signs.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P02-250x226.jpg"
+        },
+        {
+          "question": "This sign prohibits entry to…",
+          "options": [
+            "Cycles and mopeds.",
+            "Cycles (bicycles).",
+            "All two‑wheeled vehicles."
+          ],
+          "correct_answer": "Cycles (bicycles).",
+          "explanation": "The red circular sign with a bicycle forbids bicycles specifically; mopeds have a different sign.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P03-250x226.jpg"
+        },
+        {
+          "question": "In general, under the effects of cocaine a driver becomes…",
+          "options": [
+            "Insecure and underestimates abilities.",
+            "More focused, making safer decisions.",
+            "Over‑confident, competitive and impulsive."
+          ],
+          "correct_answer": "Over‑confident, competitive and impulsive.",
+          "explanation": "Stimulants increase risk‑taking and aggressive behaviour, degrading safe driving.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P04-250x226.jpg"
+        },
+        {
+          "question": "Are pregnant occupants required to wear a seat belt?",
+          "options": [
+            "Yes, as a general rule.",
+            "No, because it could be dangerous for the fetus.",
+            "Only if it doesn't make driving uncomfortable."
+          ],
+          "correct_answer": "Yes, as a general rule.",
+          "explanation": "Pregnant people must wear a seat belt correctly unless there’s a certified medical exemption.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P05-250x226.jpg"
+        },
+        {
+          "question": "Heat negatively affects safe driving. A driver exposed to high heat usually…",
+          "options": [
+            "Reacts more slowly and is less aggressive.",
+            "Reacts more slowly and is more aggressive/irritable.",
+            "Reacts faster and is more aggressive."
+          ],
+          "correct_answer": "Reacts more slowly and is more aggressive/irritable.",
+          "explanation": "High temperatures increase fatigue, slow reactions and can worsen mood.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P06-250x226.jpg"
+        },
+        {
+          "question": "If the reversing light is broken, how should you indicate you’re going to reverse?",
+          "options": [
+            "Move your arm up and down.",
+            "Extend the arm with the palm facing backward.",
+            "Warn intermittently with the horn."
+          ],
+          "correct_answer": "Extend the arm with the palm facing backward.",
+          "explanation": "That is the standard hand signal to warn of reversing when lights fail.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P07-250x226.jpg"
+        },
+        {
+          "question": "On a two‑way road with one lane each way, where should a moped position to turn left if there’s no dedicated lane?",
+          "options": [
+            "At the centre line without blocking oncoming lane.",
+            "In the middle of its own lane.",
+            "To the far right, off the carriageway if possible."
+          ],
+          "correct_answer": "To the far right, off the carriageway if possible.",
+          "explanation": "Two‑wheelers must wait at the right edge/shoulder on interurban roads to make the left turn when safe.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P08-250x226.jpg"
+        },
+        {
+          "question": "Does this broken transverse line require you to stop before crossing it?",
+          "options": [
+            "Only if visibility is poor.",
+            "No, because not stopping poses no danger.",
+            "No—stop only if necessary to give way."
+          ],
+          "correct_answer": "No—stop only if necessary to give way.",
+          "explanation": "A broken yield line means slow down and be ready to stop to cede priority if required.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P09-250x226.jpg"
+        },
+        {
+          "question": "To avoid drowsiness when driving, it’s advisable to sleep…",
+          "options": [
+            "Between 5 and 7 hours a day.",
+            "Fewer hours than normal to keep alertness high.",
+            "Enough hours to be rested (for most people 7–9 hours)."
+          ],
+          "correct_answer": "Enough hours to be rested (for most people 7–9 hours).",
+          "explanation": "Consistent adequate sleep reduces crash risk and microsleeps.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P10-250x226.jpg"
+        },
+        {
+          "question": "To avoid collisions with motorcycles/mopeds in town, a car driver should above all…",
+          "options": [
+            "Drive parallel and very close to two‑wheelers.",
+            "Check mirrors frequently.",
+            "Reduce or eliminate following distance."
+          ],
+          "correct_answer": "Check mirrors frequently.",
+          "explanation": "Two‑wheelers are small and can be in blind spots; frequent mirror checks help detect them.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P11-250x226.jpg"
+        },
+        {
+          "question": "Who may use a contraflow lane opened for roadworks?",
+          "options": [
+            "All vehicles allowed on the road.",
+            "Only cars and motorcycles.",
+            "Motor vehicles up to 3,500 kg MAM and motorcycles."
+          ],
+          "correct_answer": "All vehicles allowed on the road.",
+          "explanation": "Unless the signs restrict users, any authorised traffic may use it.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P12-250x226.jpg"
+        },
+        {
+          "question": "On two‑way roads with one lane each way, may you move into the oncoming lane to overtake a cyclist?",
+          "options": [
+            "Yes, if it can be done safely.",
+            "No.",
+            "Only if the centre line is broken."
+          ],
+          "correct_answer": "Yes, if it can be done safely.",
+          "explanation": "You must leave at least 1.5 m clearance; crossing into the opposing lane is allowed if safe and permitted.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P13-250x226.jpg"
+        },
+        {
+          "question": "Are drivers obliged to take a breath‑alcohol test if required by traffic police?",
+          "options": [
+            "No; you can refuse and continue.",
+            "Only in case of a crash.",
+            "Yes; refusal is a criminal offence."
+          ],
+          "correct_answer": "Yes; refusal is a criminal offence.",
+          "explanation": "Refusing legally required alcohol testing is a crime in Spain.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P14-250x226.jpg"
+        },
+        {
+          "question": "Is it advisable to use an oil so thin it loses viscosity at engine temperature?",
+          "options": [
+            "No; it may fail to lubricate properly.",
+            "Yes; the thinner the better.",
+            "Only if the engine runs hot."
+          ],
+          "correct_answer": "No; it may fail to lubricate properly.",
+          "explanation": "Oil that’s too thin at operating temperature may not maintain protective film strength.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-274/Test-274-P15-250x226.jpg"
+        }
+      ]
+    },
+    {
+      "source": "DGT Magazine Test April 2025",
+      "source_issue_no": 273,
+      "year": 2025,
+      "month": "April",
+      "language": "en",
+      "items": [
+        {
+          "question": "Is it permitted to drive with number plates obstructed so they can’t be read?",
+          "options": [
+            "No; plates must be readable.",
+            "Yes, if the front plate can be read.",
+            "Yes, in urban areas."
+          ],
+          "correct_answer": "No; plates must be readable.",
+          "explanation": "Plates must be legible at all times.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P01-250x226.jpg"
+        },
+        {
+          "question": "Seat belts: a car passenger is obliged to…",
+          "options": [
+            "Wear it but unfastened.",
+            "Wear it fastened only outside towns.",
+            "Wear it and keep it properly fastened."
+          ],
+          "correct_answer": "Wear it and keep it properly fastened.",
+          "explanation": "Seat belts must be used correctly.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P02-250x226.jpg"
+        },
+        {
+          "question": "Interurban road with three lanes in one direction: may a car with a trailer use the left lane?",
+          "options": [
+            "Yes, if ≤7 m long.",
+            "Yes, only to overtake.",
+            "No."
+          ],
+          "correct_answer": "Yes, if ≤7 m long.",
+          "explanation": "Combinations ≤7 m may use the left lane.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P03-250x226.jpg"
+        },
+        {
+          "question": "This arm signal from the driver indicates…",
+          "options": [
+            "Move to the right.",
+            "Move to the left.",
+            "Brake."
+          ],
+          "correct_answer": "Move to the right.",
+          "explanation": "Standard hand signals.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P04-250x226.jpg"
+        },
+        {
+          "question": "Overtaking animal‑drawn vehicles outside towns: lateral clearance…",
+          "options": [
+            "≥1.5 m.",
+            "<1.5 m.",
+            "Proportional to lane width only."
+          ],
+          "correct_answer": "≥1.5 m.",
+          "explanation": "Keep at least 1.5 m.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P05-250x226.jpg"
+        },
+        {
+          "question": "Vehicle immobilised at night on the shoulder of an urban through‑road: which lights?",
+          "options": [
+            "None.",
+            "Hazard lights.",
+            "Position lights."
+          ],
+          "correct_answer": "Position lights.",
+          "explanation": "Stationary vehicles must be visible.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P06-250x226.jpg"
+        },
+        {
+          "question": "This warning sign means…",
+          "options": [
+            "Very slippery road surface ahead.",
+            "Icy road.",
+            "Edge drop/step ahead."
+          ],
+          "correct_answer": "Very slippery road surface ahead.",
+          "explanation": "Low‑grip section ahead.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P07-250x226.jpg"
+        },
+        {
+          "question": "Snow‑chains sign: can you proceed without chains?",
+          "options": [
+            "Yes, it’s only a recommendation.",
+            "Yes, with other authorised devices of equal effectiveness.",
+            "No, never."
+          ],
+          "correct_answer": "Yes, with other authorised devices of equal effectiveness.",
+          "explanation": "Approved alternatives may be allowed.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P08-250x226.jpg"
+        },
+        {
+          "question": "Most frequent behavioural change from alcohol?",
+          "options": [
+            "Impulsive/aggressive responses.",
+            "Shorter reaction time.",
+            "Better perception of signals."
+          ],
+          "correct_answer": "Impulsive/aggressive responses.",
+          "explanation": "Alcohol increases risk‑taking.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P09-250x226.jpg"
+        },
+        {
+          "question": "This rear sign indicates…",
+          "options": [
+            "Dangerous goods.",
+            "Special vehicle working.",
+            "Slow vehicle (≤40 km/h)."
+          ],
+          "correct_answer": "Slow vehicle (≤40 km/h).",
+          "explanation": "Slow‑moving vehicle plaque.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P10-250x226.jpg"
+        },
+        {
+          "question": "If you slept poorly/insufficiently, assume…",
+          "options": [
+            "Motorway driving prevents sleepiness.",
+            "You’re not in perfect condition to drive.",
+            "A coffee eliminates fatigue."
+          ],
+          "correct_answer": "You’re not in perfect condition to drive.",
+          "explanation": "Sleep debt impairs driving.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P11-250x226.jpg"
+        },
+        {
+          "question": "Young drivers’ most serious crashes are often linked to…",
+          "options": [
+            "Alcohol/drugs and prudence.",
+            "Lack of experience and alcohol/drugs.",
+            "Excess speed and good risk perception."
+          ],
+          "correct_answer": "Lack of experience and alcohol/drugs.",
+          "explanation": "Experience + substances.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P12-250x226.jpg"
+        },
+        {
+          "question": "Which increases fuel consumption?",
+          "options": [
+            "Windows up.",
+            "Very heavy load.",
+            "Tyres with no tread."
+          ],
+          "correct_answer": "Very heavy load.",
+          "explanation": "More mass → more fuel use.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P13-250x226.jpg"
+        },
+        {
+          "question": "Why is the vehicle factor least often the main accident cause?",
+          "options": [
+            "Technical improvements in vehicles.",
+            "Vehicles are older.",
+            "Fewer km are driven each year."
+          ],
+          "correct_answer": "Technical improvements in vehicles.",
+          "explanation": "Safety tech reduces failures.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P14-250x226.jpg"
+        },
+        {
+          "question": "Check most frequently…",
+          "options": [
+            "Tyres, brakes, shock absorbers.",
+            "Lights, battery, wheels.",
+            "Air filter, steering, mirrors."
+          ],
+          "correct_answer": "Tyres, brakes, shock absorbers.",
+          "explanation": "They directly affect grip and braking.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-273/Test-273-P15-250x226.jpg"
+        }
+      ]
+    },
+    {
+      "source": "DGT Magazine Test December 2024",
+      "source_issue_no": 272,
+      "year": 2024,
+      "month": "December",
+      "language": "en",
+      "items": [
+        {
+          "question": "On a one‑way street, position to turn left…",
+          "options": [
+            "Near the left edge.",
+            "Near the right edge.",
+            "Left turns are forbidden."
+          ],
+          "correct_answer": "Near the left edge.",
+          "explanation": "Left turns start from the left unless signed otherwise.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P01-250x226.jpg"
+        },
+        {
+          "question": "Stops on motorways/expressways?",
+          "options": [
+            "Yes, anywhere on shoulder/median.",
+            "Only if shoulder is wide enough.",
+            "No, except in signed areas."
+          ],
+          "correct_answer": "No, except in signed areas.",
+          "explanation": "Stopping/parking is generally prohibited.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P02-250x226.jpg"
+        },
+        {
+          "question": "Enter a blocked intersection if you may obstruct cross traffic?",
+          "options": [
+            "Only if public service vehicle.",
+            "Yes, you have priority.",
+            "No, even with priority."
+          ],
+          "correct_answer": "No, even with priority.",
+          "explanation": "Don’t enter if you cannot clear it.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P03-250x226.jpg"
+        },
+        {
+          "question": "If BAC is under the limit, can an officer request a second test?",
+          "options": [
+            "Never.",
+            "Yes, if impairment signs appear.",
+            "Only after a crash."
+          ],
+          "correct_answer": "Yes, if impairment signs appear.",
+          "explanation": "A second test can confirm results.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P04-250x226.jpg"
+        },
+        {
+          "question": "Heavy rain on a motorcycle — best action?",
+          "options": [
+            "Reduce speed; stop if needed.",
+            "Ride close to heavy vehicles.",
+            "Increase speed to finish sooner."
+          ],
+          "correct_answer": "Reduce speed; stop if needed.",
+          "explanation": "Wet surfaces reduce grip.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P05-250x226.jpg"
+        },
+        {
+          "question": "This warning sign indicates…",
+          "options": [
+            "Obstruction in carriageway.",
+            "Reduced visibility (fog/spray).",
+            "Loose chippings."
+          ],
+          "correct_answer": "Reduced visibility (fog/spray).",
+          "explanation": "Warns of poor visibility.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P06-250x226.jpg"
+        },
+        {
+          "question": "‘Tunnel effect’ at high speed means…",
+          "options": [
+            "Peripheral vision narrows.",
+            "Speed feels lower.",
+            "Side vision improves."
+          ],
+          "correct_answer": "Peripheral vision narrows.",
+          "explanation": "You see mostly the centre; sides become less salient.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P07-250x226.jpg"
+        },
+        {
+          "question": "Where to place a portable GPS?",
+          "options": [
+            "Low under steering wheel.",
+            "Behind the wheel at eye level.",
+            "So it doesn’t block view or airbags."
+          ],
+          "correct_answer": "So it doesn’t block view or airbags.",
+          "explanation": "Must not obstruct vision or safety systems.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P08-250x226.jpg"
+        },
+        {
+          "question": "Among older users, a main crash cause is…",
+          "options": [
+            "Psychomotor deterioration.",
+            "Increased peripheral vision.",
+            "Improved risk analysis."
+          ],
+          "correct_answer": "Psychomotor deterioration.",
+          "explanation": "Age‑related slowing affects control.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P09-250x226.jpg"
+        },
+        {
+          "question": "If involved in a crash, you must…",
+          "options": [
+            "Stop only if at fault.",
+            "Stop safely, help and inform.",
+            "Not stop."
+          ],
+          "correct_answer": "Stop safely, help and inform.",
+          "explanation": "Legal duty to assist and report.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P10-250x226.jpg"
+        },
+        {
+          "question": "Unbalanced tyre pressures…",
+          "options": [
+            "Increase loss of control risk.",
+            "Don’t matter; may even help.",
+            "Always help with more contact patch."
+          ],
+          "correct_answer": "Increase loss of control risk.",
+          "explanation": "Uneven grip/hard braking destabilise.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P11-250x226.jpg"
+        },
+        {
+          "question": "With a passenger on a motorcycle, braking…",
+          "options": [
+            "Rear wheel locks less easily.",
+            "Weight shifts backwards.",
+            "Use only rear brake."
+          ],
+          "correct_answer": "Rear wheel locks less easily.",
+          "explanation": "More load increases rear grip.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P12-250x226.jpg"
+        },
+        {
+          "question": "This sign indicates…",
+          "options": [
+            "Lane reserved for mopeds.",
+            "Lane reserved for cycles.",
+            "No entry for mopeds."
+          ],
+          "correct_answer": "Lane reserved for mopeds.",
+          "explanation": "Blue circular moped pictogram = reserved lane.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P13-250x226.jpg"
+        },
+        {
+          "question": "Slippery wet pavement — precautions?",
+          "options": [
+            "Reduce speed; stop if needed.",
+            "Maintain speed; focus on signs.",
+            "None."
+          ],
+          "correct_answer": "Reduce speed; stop if needed.",
+          "explanation": "Adapt speed and distance.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P14-250x226.jpg"
+        },
+        {
+          "question": "Which factor is least often the main crash cause?",
+          "options": [
+            "Road/environment.",
+            "Human factor.",
+            "Vehicle."
+          ],
+          "correct_answer": "Vehicle.",
+          "explanation": "Human errors dominate as primary cause.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-272/Test-272-P15-250x226.jpg"
+        }
+      ]
+    },
+    {
+      "source": "DGT Magazine Test October 2024",
+      "source_issue_no": 271,
+      "year": 2024,
+      "month": "October",
+      "language": "en",
+      "items": [
+        {
+          "question": "Does signalling a lane change grant priority?",
+          "options": [
+            "Yes.",
+            "No.",
+            "Only when overtaking a large vehicle."
+          ],
+          "correct_answer": "No.",
+          "explanation": "You must yield to vehicles in the target lane.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P01-250x226.jpg"
+        },
+        {
+          "question": "Immobilised in an underpass due to emergency: what to do?",
+          "options": [
+            "Stay inside.",
+            "Stop near left edge.",
+            "Use nearest emergency phone (if any)."
+          ],
+          "correct_answer": "Use nearest emergency phone (if any).",
+          "explanation": "Follow tunnel emergency procedures.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P02-250x226.jpg"
+        },
+        {
+          "question": "In this situation, may you overtake the cyclist?",
+          "options": [
+            "Yes, even using opposite lane briefly.",
+            "Only without entering opposite lane.",
+            "No, overtaking is prohibited."
+          ],
+          "correct_answer": "Yes, even using opposite lane briefly.",
+          "explanation": "Keep ≥1.5 m and ensure safety.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P03-250x226.jpg"
+        },
+        {
+          "question": "Driving long at high speed…",
+          "options": [
+            "Reduces fatigue.",
+            "Speeds up fatigue and reduces aggression.",
+            "Speeds up fatigue and increases aggression."
+          ],
+          "correct_answer": "Speeds up fatigue and increases aggression.",
+          "explanation": "Sustained high speed is tiring and worsens mood.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P04-250x226.jpg"
+        },
+        {
+          "question": "Do age/fatigue/fitness change medicine side‑effects?",
+          "options": [
+            "No.",
+            "Yes.",
+            "Only if ignoring medical advice."
+          ],
+          "correct_answer": "Yes.",
+          "explanation": "Effects vary by individual.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P05-250x226.jpg"
+        },
+        {
+          "question": "With GPS: what prevails?",
+          "options": [
+            "Never look away from GPS.",
+            "GPS over road signs.",
+            "Driver’s judgement over GPS."
+          ],
+          "correct_answer": "Driver’s judgement over GPS.",
+          "explanation": "Obey road rules first.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P06-250x226.jpg"
+        },
+        {
+          "question": "Deactivate front passenger airbag when…",
+          "options": [
+            "Pregnant person there.",
+            "Rear‑facing child seat installed.",
+            "Forward‑facing child seat installed."
+          ],
+          "correct_answer": "Rear‑facing child seat installed.",
+          "explanation": "Never place rear‑facing seat before active airbag.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P07-250x226.jpg"
+        },
+        {
+          "question": "Urban motorway, no signs: car speed limit?",
+          "options": [
+            "80 km/h",
+            "120 km/h",
+            "100 km/h"
+          ],
+          "correct_answer": "80 km/h",
+          "explanation": "Typical limit is 80 km/h unless posted.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P08-250x226.jpg"
+        },
+        {
+          "question": "May you exceed the limit to overtake at a junction?",
+          "options": [
+            "Yes, by 20 km/h.",
+            "No.",
+            "Yes, if circumstances allow."
+          ],
+          "correct_answer": "No.",
+          "explanation": "Speeding to overtake is not allowed.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P09-250x226.jpg"
+        },
+        {
+          "question": "Officer waves a yellow light — means…",
+          "options": [
+            "Proceed with caution.",
+            "Indicates lane to use.",
+            "Stop if directed at you."
+          ],
+          "correct_answer": "Stop if directed at you.",
+          "explanation": "Light signals can order a stop.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-271/Test-271-P12-250x226.jpg"
+        }
+      ]
+    },
+    {
+      "source": "DGT Magazine Test June 2024",
+      "source_issue_no": 270,
+      "year": 2024,
+      "month": "June",
+      "language": "en",
+      "items": [
+        {
+          "question": "Alcohol consumption, even small amounts…",
+          "options": [
+            "Does not impair driving.",
+            "Impairs driving.",
+            "Only impairs if mixed with drugs."
+          ],
+          "correct_answer": "Impairs driving.",
+          "explanation": "Any alcohol affects reaction and judgement.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P01-250x226.jpg"
+        },
+        {
+          "question": "Adult carrying a passenger on a single-seat bicycle?",
+          "options": [
+            "Only if rider stands and passenger sits.",
+            "Yes, one child ≤7 in an approved seat.",
+            "No, prohibited."
+          ],
+          "correct_answer": "Yes, one child ≤7 in an approved seat.",
+          "explanation": "Allowed with approved extra child seat.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P02-250x226.jpg"
+        },
+        {
+          "question": "In front of a driveway (vado), this sign prohibits…",
+          "options": [
+            "Stopping and parking.",
+            "Stopping only.",
+            "Parking only."
+          ],
+          "correct_answer": "Parking only.",
+          "explanation": "Parking is prohibited at driveways.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P03-250x226.jpg"
+        },
+        {
+          "question": "Max speed for a van on an urban motorway with no signs?",
+          "options": [
+            "80 km/h",
+            "100 km/h",
+            "90 km/h"
+          ],
+          "correct_answer": "80 km/h",
+          "explanation": "Vans follow urban motorway limits (usually 80).",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P04-250x226.jpg"
+        },
+        {
+          "question": "Children ≤135 cm must use child restraints adapted to…",
+          "options": [
+            "Height and age.",
+            "Age and weight.",
+            "Height and weight."
+          ],
+          "correct_answer": "Height and weight.",
+          "explanation": "Size/mass compatibility is key.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P05-250x226.jpg"
+        },
+        {
+          "question": "Parking in an exclusive urban bus lane?",
+          "options": [
+            "Only outside service hours.",
+            "No.",
+            "Yes, stopping and parking allowed."
+          ],
+          "correct_answer": "No.",
+          "explanation": "Reserved lanes can’t be occupied.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P06-250x226.jpg"
+        },
+        {
+          "question": "For motorcyclists, does clothing matter?",
+          "options": [
+            "No, helmet is enough.",
+            "No, adds nothing.",
+            "Yes, essential for protection."
+          ],
+          "correct_answer": "Yes, essential for protection.",
+          "explanation": "Protective gear reduces injury.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P07-250x226.jpg"
+        },
+        {
+          "question": "Save fuel by avoiding unnecessary gear changes?",
+          "options": [
+            "Yes.",
+            "No.",
+            "Depends on fuel type."
+          ],
+          "correct_answer": "Yes.",
+          "explanation": "Smooth driving saves fuel.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P08-250x226.jpg"
+        },
+        {
+          "question": "Police vehicle with V‑1 lights signals you: do…",
+          "options": [
+            "Slow down.",
+            "Stop on the right, in front of the police car.",
+            "Stop on the left, behind it."
+          ],
+          "correct_answer": "Stop on the right, in front of the police car.",
+          "explanation": "Pull over safely as indicated.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P09-250x226.jpg"
+        },
+        {
+          "question": "‘Submarining’ occurs when…",
+          "options": [
+            "Occupant slides under lap belt.",
+            "Whiplash from wrong headrest.",
+            "Airbag hits driver strongly."
+          ],
+          "correct_answer": "Occupant slides under lap belt.",
+          "explanation": "Poor belt fit/posture allows sliding under the belt.",
+          "image_url": "https://revista.dgt.es/Galerias/test/N-270/Test-270-P10-250x226.jpg"
+        }
+      ]
+    }
+  ]
+}
